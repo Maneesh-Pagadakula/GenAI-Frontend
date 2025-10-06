@@ -14,8 +14,11 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
   const [userStoriesData, setUserStoriesData] = useState(null);
   const [hasUserStories, setHasUserStories] = useState(false);
 
-  const [featureData, setFeatureData] = useState(null);
-  const [hasFeatures, setHasFeatures] = useState(false);
+  // const [featureData, setFeatureData] = useState(null);
+  // const [hasFeatures, setHasFeatures] = useState(false);
+
+  const [activeUSFilter, setActiveUSFilter] = useState("all");
+  const handleUSFilterChange = (val) => setActiveUSFilter(val);
 
   const [isStructuredContent, setIsStructuredContent] = useState(false);
 
@@ -28,11 +31,11 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
       console.log("Received markdown content:", content);
       const testCaseResult = parseMarkdown(content);
       const userStoryResult = parseUserStories(content);
-      const featureResult = parseFeatures(content);
+      // const featureResult = parseFeatures(content);
 
       setParsedData(testCaseResult);
       setUserStoriesData(userStoryResult);
-      setFeatureData(featureResult);
+      // setFeatureData(featureResult);
 
       const userStoriesExist =
         userStoryResult?.metrics?.totalUserStories != null &&
@@ -41,15 +44,16 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
         testCaseResult?.metrics?.totalTestCases != null &&
         testCaseResult.metrics.totalTestCases > 0;
 
-      const featuresExist =
-        featureResult?.metrics?.totalFeatures != null &&
-        featureResult.metrics.totalFeatures > 0;
+      // const featuresExist =
+      //   featureResult?.metrics?.totalFeatures != null &&
+      //   featureResult.metrics.totalFeatures > 0;
 
       setHasTestCases(testCasesExist);
       setHasUserStories(userStoriesExist);
-      setHasFeatures(featuresExist);
+      // setHasFeatures(featuresExist);
       setIsStructuredContent(
-        userStoriesExist || testCasesExist || featuresExist,
+        userStoriesExist || testCasesExist
+        // userStoriesExist || testCasesExist || featuresExist,
       );
 
       // Initialize filtered test cases and reset filter
@@ -63,10 +67,10 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
 
       console.log("Test Case Result:", testCaseResult);
       console.log("User Story Result:", userStoryResult);
-      console.log("Feature Result:", featureResult);
+      // console.log("Feature Result:", featureResult);
       console.log("Has User Stories:", userStoriesExist);
       console.log("Has Test Cases:", testCasesExist);
-      console.log("Has Features:", featuresExist);
+      // console.log("Has Features:", featuresExist);
     }
   }, [content]);
 
@@ -144,7 +148,7 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
       }
 
       console.log(
-        `Filtering: ${activeFilter}, Found ${filtered.length} of ${parsedData.testCases.length} test cases`,
+        `Filtering: ${activeFilter}, Found ${filtered.length} of ${parsedData.testCases.length} test cases`
       );
       setFilteredTestCases(filtered);
     } else {
@@ -166,9 +170,18 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
     return <StyledMarkdown content={content} />;
   }
 
+  const filteredUserStories =
+    activeUSFilter === "all"
+      ? userStoriesData.userStories
+      : userStoriesData.userStories.filter(
+          (s) =>
+            // example: if you ever add a "type" to stories
+            (s.type || "").toLowerCase() === activeUSFilter
+        );
+
   return (
     <div className="parsed-markdown">
-      {hasFeatures && featureData?.features?.length > 0 && (
+      {/* {hasFeatures && featureData?.features?.length > 0 && (
         <div>
           <ul>
             <li>
@@ -200,16 +213,54 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
             </div>
           ))}
         </div>
-      )}
+      )} */}
 
       {hasUserStories && userStoriesData?.userStories?.length > 0 && (
         <div>
-          <ul>
+          {/* <ul>
             <li>
               <strong>Total User Stories Generated:</strong>{" "}
               {userStoriesData.metrics.totalUserStories}
             </li>
-          </ul>
+          </ul> */}
+          <div className="filter-bar">
+            <ul>
+              <li
+                className={`metric-filter ${
+                  activeUSFilter === "all" ? "active" : ""
+                }`}
+                onClick={() => handleUSFilterChange("all")}
+                id="user-stories-metric"
+              >
+                <strong>Total User Stories Generated:</strong>{" "}
+                {userStoriesData.metrics.totalUserStories}
+              </li>
+
+              {/* OPTIONAL: dynamic chips if you add a breakdown later */}
+              {userStoriesData.metrics.typeBreakdown &&
+                Object.entries(userStoriesData.metrics.typeBreakdown).map(
+                  ([type, count]) => (
+                    <li
+                      key={type}
+                      className={`metric-filter ${
+                        activeUSFilter === type.toLowerCase() ? "active" : ""
+                      }`}
+                      onClick={() => handleUSFilterChange(type.toLowerCase())}
+                    >
+                      <strong>{type} Stories:</strong> {count}
+                    </li>
+                  )
+                )}
+            </ul>
+
+            <div className="filter-message">
+              <strong>
+                Showing {filteredUserStories.length} out of{" "}
+                {userStoriesData.metrics.totalUserStories} user stories
+              </strong>
+            </div>
+          </div>
+
           {userStoriesData.userStories.map((story, index) => (
             <div key={index} className="test-case">
               <h3>
@@ -268,7 +319,7 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
                     >
                       <strong>{type} Cases:</strong> {count}
                     </li>
-                  ),
+                  )
                 )}
             </ul>
             <div className="filter-message">
@@ -288,7 +339,9 @@ const MarkdownStyles = ({ content, initialFilter = "all", onFilterChange }) => {
 
             {filteredTestCases.map((testCase, index) => (
               <div
-                key={`${testCase.id}-${index}-${testCase.title?.substring(0, 10) || "tc"}`}
+                key={`${testCase.id}-${index}-${
+                  testCase.title?.substring(0, 10) || "tc"
+                }`}
                 className="test-case"
               >
                 <h3>🧪 Test Case ID: {testCase.id}</h3>

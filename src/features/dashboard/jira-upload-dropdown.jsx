@@ -12,6 +12,7 @@ import successIcon from "../../assets/images/success-close.svg";
 import "../dashboard/jira-progress-bar.css";
 import { JiraTokenService } from "../../features/dashboard/jira-token-data";
 import Select from "react-select";
+import ReactDOM from "react-dom";
 
 function JiraUploadDropdown({ onClose, onSuccess }) {
   const progressContainerRef = useRef(null);
@@ -315,7 +316,8 @@ function JiraUploadDropdown({ onClose, onSuccess }) {
     }
   };
 
-  return (
+  return ReactDOM.createPortal( 
+    <>
     <div>
       {/* TOASTER ALERTS PLACED PROPERLY BELOW THE CREATE NEW SECTION */}
       <div className="toaster-container" style={{ width: "100%" }}>
@@ -526,6 +528,8 @@ function JiraUploadDropdown({ onClose, onSuccess }) {
         </div>
       </div>
     </div>
+  </>,
+    document.body
   );
 }
 

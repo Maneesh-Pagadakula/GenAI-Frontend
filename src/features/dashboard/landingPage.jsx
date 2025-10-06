@@ -44,6 +44,142 @@ import JiraAnalysisDropdown from "./jira-analysis-dropdown";
 import ListCards from "./ListCards";
 
 function LandingPage(props) {
+
+function LandingPage(props) {
+  // NEW: automation/toggle state
+  const [isAutomationGenerating, setIsAutomationGenerating] = useState(false);
+  const [automation, setAutomation] = useState({ markdown: "", title: "" });
+  const [viewTab, setViewTab] = useState("testcases"); // 'testcases' | 'automation'
+
+  // Clears persisted Jira generation + resets UI
+  const resetJiraGeneration = () => {
+    // localStorage
+    localStorage.removeItem("lastJiraTestCases");
+    localStorage.removeItem("lastJiraAutomation");
+    localStorage.removeItem("lastJiraAutomationTitle");
+    localStorage.removeItem("lastViewTab");
+    localStorage.removeItem("lastGenerationSource");
+
+    // in-memory UI
+    setResponseData(null);
+    setAutomation?.({ markdown: "", title: "" }); // if you keep automation state
+    setViewTab?.("testcases"); // if you store the tab
+    setDisplayType?.("original"); // if you show a badge/variant
+  };
+
+  useEffect(() => {
+    const tc = localStorage.getItem("lastJiraTestCases") || "";
+    const auto = localStorage.getItem("lastJiraAutomation") || "";
+    const autoTitle =
+      localStorage.getItem("lastJiraAutomationTitle") || "Automation Script";
+    const lastSource = localStorage.getItem("lastGenerationSource") || "";
+
+    if (tc) {
+      // Default tab is testcases
+      setResponseData({
+        status: 200,
+        data: { message: tc, title: "Test Cases" },
+      });
+      setGeneratedResults("Generated Test Cases from Jira");
+      setDisplayType("original");
+    }
+    if (auto) {
+      setAutomation({ markdown: auto, title: autoTitle });
+    }
+    // Default to testcases; if you ever want to remember the last tab:
+    const preferred = localStorage.getItem("lastViewTab");
+    setViewTab(preferred === "automation" && auto ? "automation" : "testcases");
+
+    // (Optional) remember source so the button shows only for Jira
+    if (lastSource) setGenerationSource(lastSource);
+  }, []);
+
+  const canShowAutomationButton = () => {
+    const hasCases = !!(
+      responseData?.data?.message || localStorage.getItem("lastJiraTestCases")
+    );
+    const src =
+      generationSource || localStorage.getItem("lastGenerationSource");
+    return src === "Jira" && hasCases && !automation.markdown; // hide if already generated
+  };
+
+// Drop this inside LandingPage.jsx
+const handleGenerateAutomation = async () => {
+  if (isAutomationGenerating) return;
+  setIsAutomationGenerating(true);
+  setError("");
+  setShowErrorToast(false);
+
+  try {
+    const email = localStorage.getItem("Email") || "";
+    const testCasesMd =
+      (responseData?.data?.message || localStorage.getItem("lastJiraTestCases") || "").trim();
+
+    if (!testCasesMd) throw new Error("No Jira test cases available");
+
+    const resp = await fetch(
+      `${backend_baseURL}/jira/generate/automation?EmailId=${encodeURIComponent(email)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          test_cases_markdown: testCasesMd,
+          // user_story / epic optional; backend reads from session if omitted
+        }),
+      }
+    );
+
+    const json = await resp.json();
+    if (!resp.ok) throw new Error(json?.message || "Automation generation failed");
+
+    const rawCode = (json.generated_code || json.message || "").trim();
+    const title = (json.title || "Jira_Automation").trim();
+    const safeBase = title.replace(/[^\w.-]+/g, "_");
+
+    // If response already includes fenced blocks and a filename/path hint, keep as-is.
+    const hasFence = /```/.test(rawCode);
+    const hasFileHint = /^\s*(#|\/\/)\s*(filename:|src\/|tests\/|feature[s]?\/)/im.test(rawCode);
+
+    const wrappedMarkdown = hasFence
+      ? (hasFileHint ? rawCode : `### Generated Automation Code\n\n${rawCode}`)
+      : `### Generated Automation Code\n\n\`\`\`python
+# filename: ${safeBase}.py
+${rawCode}
+\`\`\`
+`;
+
+    // Persist so reload shows Test Cases by default; toggle can show automation later.
+    localStorage.setItem("lastJiraTestCases", testCasesMd);
+    localStorage.setItem("lastJiraAutomation", wrappedMarkdown);
+    localStorage.setItem("lastJiraAutomationTitle", `${safeBase}.py`);
+    localStorage.setItem("lastGenerationSource", "Jira");
+    // localStorage.setItem("lastViewTab", "testcases"); // keep default on load
+
+    // // Reload per your flow (title/header stays unchanged after reload)
+    // window.location.reload();
+    localStorage.setItem("lastViewTab", "automation"); // show code after generation (optional)
+
+    // Update UI in-place (no reload) and KEEP whatever title is on screen
+    setAutomation({ markdown: wrappedMarkdown, title: `${safeBase}.py` });
+    setViewTab("automation");
+    setResponseData(prev => ({
+      status: 200,
+      data: {
+        message: wrappedMarkdown,
+        title: prev?.data?.title || "Test Cases",
+      },
+    }));
+    setGenerationSource("Jira");
+  } catch (e) {
+    setError(e.message || "Automation generation failed");
+    setShowErrorToast(true);
+  } finally {
+    setIsAutomationGenerating(false);
+  }
+};
+
+
   const {
     showJiraPopup: externalJiraPopup,
     setShowJiraPopup: externalSetJiraPopup,
@@ -60,6 +196,8 @@ function LandingPage(props) {
 
   // Use the external state if it exists, otherwise fall back to local state
   const showJiraPopup = externalJiraPopup !== undefined ? externalJiraPopup : localJiraPopup;
+  const showJiraPopup =
+    externalJiraPopup !== undefined ? externalJiraPopup : localJiraPopup;
   const setShowJiraPopup = externalSetJiraPopup || setLocalJiraPopup;
   const showDevOpsPopup =
     externalDevOpsPopup !== undefined ? externalDevOpsPopup : localDevOpsPopup;
@@ -93,6 +231,14 @@ function LandingPage(props) {
 
   const handleJiraAnalysisSuccess = (analysis) => {
     setResponseData({ status: 200, data: { message: analysis, title: "Test Case Analysis" } });
+  // NEW: controls whether Jira popup is in "test-cases" or "feature (Gherkin)" mode
+  const [jiraCreateMode, setJiraCreateMode] = useState("test-cases");
+
+  const handleJiraAnalysisSuccess = (analysis) => {
+    setResponseData({
+      status: 200,
+      data: { message: analysis, title: "Test Case Analysis" },
+    });
     setGeneratedResults("Test Case Analysis");
     setDisplayType("identified");
     setAnalysisContent("");
@@ -128,6 +274,10 @@ function LandingPage(props) {
         const a = document.createElement("a");
         a.href = url;
         a.download = format === "pdf" ? "Test_Case_Analysis.pdf" : "Test_Case_Analysis.xlsx";
+        a.download =
+          format === "pdf"
+            ? "Test_Case_Analysis.pdf"
+            : "Test_Case_Analysis.xlsx";
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -209,6 +359,8 @@ function LandingPage(props) {
       setSubmit(false);
     }
   }, [submit]);
+  // Show Jira Upload only when current/returned type is Manual
+  const isManual = (jiraTestCaseType || testCaseType) === "Manual Test Cases";
 
   const handleTestCaseFilterChange = (filterType) => {
     setTestCaseFilter(filterType);
@@ -469,7 +621,10 @@ function LandingPage(props) {
 
                 setShowSuccessToast(true);
                 setSuccessMessage("Test cases refined successfully!");
-              } else if (jsonData.message.includes("error") || jsonData.message.includes("Error")) {
+              } else if (
+                jsonData.message.includes("error") ||
+                jsonData.message.includes("Error")
+              ) {
                 setError(jsonData.message);
                 setShowErrorToast(true);
               }
@@ -797,69 +952,159 @@ function LandingPage(props) {
     } else {
       document.removeEventListener("click", handleClickOutsidedownloadDropdown);
     }
-    return () => document.removeEventListener("click", handleClickOutsidedownloadDropdown);
+    return () =>
+      document.removeEventListener("click", handleClickOutsidedownloadDropdown);
   }, [downloadDropdown]);
 
-  const handleResponseFromJira = (testCases, type, inputs) => {
-    console.log("fetched data :", testCases);
-    console.log("type :", type);
-    console.log("Data type of testCases:", typeof testCases);
-    console.log("inputs ", inputs);
-    if (inputs.error) {
-      console.error("Error received from backend:", inputs.error);
+  // const handleResponseFromJira = (testCases, type, inputs) => {
+  //   console.log("fetched data :", testCases);
+  //   console.log("type :", type);
+  //   console.log("Data type of testCases:", typeof testCases);
+  //   console.log("inputs ", inputs);
+  //   if (inputs.error) {
+  //     console.error("Error received from backend:", inputs.error);
+  //     setError(inputs.error);
+  //     setShowErrorToast(true);
+  //     setShowJiraPopup(false);
+  //     return;
+  //   }
+  //   setSuccessMessage(`Generation of data has been successful!`);
+  //   setShowSuccessToast(true);
+  //   setEpicInput(inputs.epic.epicInput);
+  //   setUserStoryInput(inputs.userStory.userStoryInput);
+  //   setJiraKey(inputs.key);
+
+  //   // Check for empty strings after trimming whitespace
+  //   if (
+  //     inputs.epic.epicInput.trim() !== "" &&
+  //     inputs.userStory.userStoryInput.trim() !== ""
+  //   ) {
+  //     setGeneratedResults(
+  //       "Generated Test Cases for the User Story : " +
+  //         inputs.userStory.userStoryName +
+  //         " " +
+  //         "(" +
+  //         inputs.userStory.userStoryInput +
+  //         ")",
+  //     );
+  //   } else if (
+  //     inputs.epic.epicInput.trim() !== "" &&
+  //     inputs.userStory.userStoryInput.trim() === ""
+  //   ) {
+  //     setGeneratedResults(
+  //       "Generated User Stories for the Epic : " +
+  //         inputs.epic.epicName +
+  //         " " +
+  //         "(" +
+  //         inputs.epic.epicInput +
+  //         ")",
+  //     );
+  //   }
+
+  //   setJiraTestCaseType(type);
+  //   resetDisplayState(); // Reset display state for new original data
+  //   setGenerationSource("Jira"); // Set source for potential subsequent operations
+  //   setResponseData({
+  //     status: 200,
+  //     data: {
+  //       message: testCases,
+  //       // message: typeof testCases === "string" ? testCases : JSON.stringify(testCases, null, 2),
+  //     },
+  //   });
+
+  //   // Set conversation context for Jira
+  //   setConversationContext({
+  //     requirementSummary: `Epic: ${inputs.epic.epicName} (${inputs.epic.epicInput})\nUser Story: ${inputs.userStory.userStoryName} (${inputs.userStory.userStoryInput})`,
+  //     generatedFrom: "jira",
+  //   });
+
+  //   setShowJiraPopup(false);
+  // };
+  // B) Make your success handler title dynamic for artifact types:
+  const handleResponseFromJira = (payload, type, inputs) => {
+    if (inputs?.error) {
       setError(inputs.error);
       setShowErrorToast(true);
       setShowJiraPopup(false);
       return;
     }
-    setSuccessMessage(`Generation of data has been successful!`);
-    setShowSuccessToast(true);
-    setEpicInput(inputs.epic.epicInput);
-    setUserStoryInput(inputs.userStory.userStoryInput);
-    setJiraKey(inputs.key);
 
-    // Check for empty strings after trimming whitespace
-    if (inputs.epic.epicInput.trim() !== "" && inputs.userStory.userStoryInput.trim() !== "") {
+    const epicKey = inputs?.epic?.epicInput?.trim();
+    const epicName = inputs?.epic?.epicName || "";
+    const storyKey = inputs?.userStory?.userStoryInput?.trim();
+    const storyName = inputs?.userStory?.userStoryName || "";
+    const artifact = (inputs?.artifact || "").toLowerCase(); // "features" | "user-stories" | ""
+
+    // Header
+    if (artifact === "features" && storyKey) {
       setGeneratedResults(
-        "Generated Test Cases for the User Story : " +
-          inputs.userStory.userStoryName +
-          " " +
-          "(" +
-          inputs.userStory.userStoryInput +
-          ")"
+        `Generated Feature Files for User Story: ${storyName} (${storyKey})`
       );
-    } else if (
-      inputs.epic.epicInput.trim() !== "" &&
-      inputs.userStory.userStoryInput.trim() === ""
-    ) {
+    } else if (artifact === "user-stories" && epicKey) {
       setGeneratedResults(
-        "Generated User Stories for the Epic : " +
-          inputs.epic.epicName +
-          " " +
-          "(" +
-          inputs.epic.epicInput +
-          ")"
+        `Generated User Stories for Epic: ${epicName} (${epicKey})`
       );
+    } else {
+      // fallback to your existing titles (test-case flow)
+      if (epicKey && storyKey) {
+        setGeneratedResults(
+          `Generated Test Cases for the User Story: ${storyName} (${storyKey})`
+        );
+      } else if (epicKey && !storyKey) {
+        setGeneratedResults(
+          `Generated User Stories for the Epic: ${epicName} (${epicKey})`
+        );
+      } else {
+        setGeneratedResults("Generated Results");
+      }
     }
 
-    setJiraTestCaseType(type);
-    resetDisplayState(); // Reset display state for new original data
-    setGenerationSource("Jira"); // Set source for potential subsequent operations
-    setResponseData({
-      status: 200,
-      data: {
-        message: testCases,
-        // message: typeof testCases === "string" ? testCases : JSON.stringify(testCases, null, 2),
-      },
-    });
+    // Save data
+    setJiraTestCaseType(type); // "Features" in feature mode is fine
+    resetDisplayState();
+    setGenerationSource("Jira");
+    
+    setResponseData({ status: 200, data: { message: payload } });
 
-    // Set conversation context for Jira
     setConversationContext({
-      requirementSummary: `Epic: ${inputs.epic.epicName} (${inputs.epic.epicInput})\nUser Story: ${inputs.userStory.userStoryName} (${inputs.userStory.userStoryInput})`,
+      requirementSummary: `Epic: ${epicName} (${
+        epicKey || "-"
+      })\nUser Story: ${storyName} (${storyKey || "-"})`,
       generatedFrom: "jira",
     });
 
     setShowJiraPopup(false);
+  };
+
+  const handleToggleView = (tab) => {
+    setViewTab(tab);
+    localStorage.setItem("lastViewTab", tab);
+
+    if (tab === "testcases") {
+      const tc =
+        localStorage.getItem("lastJiraTestCases") ||
+        responseData?.data?.message ||
+        "";
+      setResponseData({
+        status: 200,
+        data: { message: tc, title: responseData?.data?.title || "Test Cases" },
+      });
+      setDisplayType("original");
+    } else {
+      const code =
+        automation.markdown || localStorage.getItem("lastJiraAutomation") || "";
+
+      // ⬇️ DO NOT CHANGE THE TITLE — keep whatever is currently on screen
+      const stableTitle =
+        responseData?.data?.title ||
+        (generatedResults ? generatedResults : "Generated Results");
+
+      setResponseData({
+        status: 200,
+        data: { message: code, title: stableTitle },
+      });
+      setDisplayType("identified"); // or whatever tag you need; title won’t change
+    }
   };
 
   useEffect(() => {
@@ -1545,6 +1790,32 @@ function LandingPage(props) {
     }
   };
 
+  const jiraAuthorizationURL =
+    (typeof window !== "undefined" && window.jiraAuthApi) ||
+    `${backend_baseURL}/jira-oauth/authorize`;
+
+  const redirectToJiraFeature = async () => {
+    setJiraCreateMode("feature");
+    // If already authenticated, open the Jira popup in "feature" mode
+    if (
+      JiraTokenService.hasValidToken() ||
+      JiraTokenService.isAuthenticated()
+    ) {
+      // <--- important
+      setShowJiraPopup(true);
+      return;
+    }
+
+    // Otherwise kick off OAuth (same flow as redirectToJira)
+    try {
+      localStorage.setItem("authType", "jira");
+      window.location.href = jiraAuthorizationURL;
+      setJiraRedirectStatus(true);
+    } catch (error) {
+      console.error("Error redirecting to Jira (feature):", error);
+    }
+  };
+
   const handleCloseJiraPopup = () => {
     setShowJiraPopup(false);
     setJiraRedirectStatus(false);
@@ -1610,6 +1881,7 @@ function LandingPage(props) {
                           <ul className="create-new-dropdown">
                             <li
                               onClick={() => {
+                                resetJiraGeneration();
                                 handleCreate();
                                 setShowHamburgerMenu(false);
                               }}
@@ -1640,6 +1912,7 @@ function LandingPage(props) {
                             handleToggle={handleToggle}
                             isChecked={isChecked}
                             redirectToJira={redirectToJira}
+                            redirectToJiraFeature={redirectToJiraFeature}
                             redirectToDevOps={redirectToDevOps}
                             handleExcelUploadPopup={handleExcelUploadPopup}
                             handleOpenJiraAnalysis={() => {
@@ -1656,7 +1929,7 @@ function LandingPage(props) {
                           />
                         </div>
                       )}
-                    </div> */}
+                    </div>
                   </div>
                   {/* TOASTER ALERTS */}
                   <div>
@@ -1768,18 +2041,77 @@ function LandingPage(props) {
                           </strong>
                         </h2>
                         <ul className="product-list-controlls">
-                          <li className="jira-upload">
-                            <button className="download-btn" onClick={handleOpenJiraUpload}>
-                              <img
-                                src={uploadIcon}
-                                alt="Upload to Jira"
-                                style={{ cursor: "pointer" }}
-                              />
-                              <strong>Jira Upload</strong>
-                            </button>
-                          </li>
+                          {canShowAutomationButton() && (
+                            <li className="jira-upload">
+                              <button
+                                type="button" // IMPORTANT: no form submit
+                                className="download-btn"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  handleGenerateAutomation();
+                                }}
+                                disabled={isAutomationGenerating}
+                                title="Generate automated scripts from Jira test cases"
+                                style={{
+                                  opacity: isAutomationGenerating ? 0.7 : 1,
+                                }}
+                              >
+                                {isAutomationGenerating ? (
+                                  <span
+                                    className="sc-spinner"
+                                    aria-label="loading"
+                                    style={{
+                                      display: "inline-block",
+                                      width: 18,
+                                      height: 18,
+                                      border: "2px solid #fff",
+                                      borderTopColor: "transparent",
+                                      borderRadius: "50%",
+                                      marginRight: 8,
+                                      animation: "scSpin 0.8s linear infinite",
+                                    }}
+                                  />
+                                ) : (
+                                  <img
+                                    src={downloadIcon}
+                                    alt="Generate"
+                                    style={{
+                                      cursor: "pointer",
+                                      marginRight: 6,
+                                    }}
+                                  />
+                                )}
+                                <strong>
+                                  {isAutomationGenerating
+                                    ? "Generating…"
+                                    : "Generate Automated Scripts"}
+                                </strong>
+                              </button>
+                            </li>
+                          )}
+
+                          {isManual && (
+                            <li className="jira-upload">
+                              <button
+                                className="download-btn"
+                                onClick={handleOpenJiraUpload}
+                              >
+                                <img
+                                  src={uploadIcon}
+                                  alt="Upload to Jira"
+                                  style={{ cursor: "pointer" }}
+                                />
+                                <strong>Jira Upload</strong>
+                              </button>
+                            </li>
+                          )}
+
                           <li className="download-container jira-upload">
-                            <button className="download-btn" onClick={toggleDownloadDropdown}>
+                            <button
+                              className="download-btn"
+                              onClick={toggleDownloadDropdown}
+                            >
                               <img
                                 src={downloadIcon}
                                 // onClick={downloadFile}
@@ -1817,7 +2149,7 @@ function LandingPage(props) {
                                         src={excel}
                                         alt="Excel Icon"
                                         style={{
-                                          width: "50px",
+                                          width: "40px",
                                           paddingLeft: "8px",
                                           paddingRight: "8px",
                                         }}
@@ -1896,6 +2228,39 @@ function LandingPage(props) {
                           />
                         )}
                       </div>
+                      {(automation.markdown ||
+                        localStorage.getItem("lastJiraAutomation")) && (
+                        <div className="sc-toggle-wrap">
+                          <div
+                            className="sc-view-toggle"
+                            role="tablist"
+                            aria-label="View Switch"
+                          >
+                            <button
+                              type="button"
+                              role="tab"
+                              aria-selected={viewTab === "testcases"}
+                              className={`sc-seg ${
+                                viewTab === "testcases" ? "active" : ""
+                              }`}
+                              onClick={() => handleToggleView("testcases")}
+                            >
+                              <strong>Test Cases</strong>
+                            </button>
+                            <button
+                              type="button"
+                              role="tab"
+                              aria-selected={viewTab === "automation"}
+                              className={`sc-seg ${
+                                viewTab === "automation" ? "active" : ""
+                              }`}
+                              onClick={() => handleToggleView("automation")}
+                            >
+                              <strong>Automation Scripts</strong>
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -2063,7 +2428,11 @@ function LandingPage(props) {
         />
       )}
       {showJiraPopup && (
-        <JiraDropdown onClose={() => setShowJiraPopup(false)} onSuccess={handleResponseFromJira} />
+        <JiraDropdown
+          createMode={jiraCreateMode}
+          onClose={() => setShowJiraPopup(false)}
+          onSuccess={handleResponseFromJira}
+        />
       )}
       {showDevOpsPopup && (
         <DevOpsDropdown

@@ -15,6 +15,7 @@ export default function CreateList({
   handleToggle,
   isChecked,
   redirectToJira,
+  redirectToJiraFeature,
   redirectToDevOps,
   handleExcelUploadPopup,
   handleOpenJiraAnalysis,
@@ -48,8 +49,9 @@ export default function CreateList({
   const handleJiraClick = () => {
     if (jiraRef.current) {
       const rect = jiraRef.current.getBoundingClientRect();
-      const parentRect =
-        jiraRef.current.closest(".create-new-card").getBoundingClientRect();
+      const parentRect = jiraRef.current
+        .closest(".create-new-card")
+        .getBoundingClientRect();
 
       setSubmenuPosition({
         top: rect.top - parentRect.top, // align with Jira row
@@ -240,6 +242,18 @@ export default function CreateList({
                 <div role="button" style={{ padding: "0 8px" }}>
                   <h6 className="create-new-label">Test Case Analysis</h6>
                   <p className="mb-0">Analyze EPIC’s US & TCs</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div className="d-flex" onClick={redirectToJiraFeature}>
+                <div role="button" style={{ padding: "0 8px" }}>
+                  <h6 className="create-new-label">
+                    Generate Feature Files & User Stories
+                  </h6>
+                  <p className="mb-0">
+                    Create Feature files from stories; stories from epics.
+                  </p>
                 </div>
               </div>
             </li>

@@ -818,9 +818,9 @@ const StyledMarkdown = ({ content }) => {
                     inline ? (
                       <code style={styles.inlineCode}>{children}</code>
                     ) : (
-                      <pre style={styles.codeBlock}>
+                      <div style={styles.codeBlock}>
                         <code>{children}</code>
-                      </pre>
+                      </div>
                     ),
 
                   hr: () => <hr style={styles.horizontalRule} />,

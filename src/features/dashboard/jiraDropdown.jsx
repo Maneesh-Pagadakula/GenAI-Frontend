@@ -6,7 +6,7 @@ import successIcon from "../../assets/images/success-close.svg";
 import "../dashboard/jira-progress-bar.css";
 import { JiraTokenService } from "../../features/dashboard/jira-token-data";
 
-function JiraDropdown({ onClose, onSuccess }) {
+function JiraDropdown({ createMode = "test-cases", onClose, onSuccess }) {
   const progressContainerRef = useRef(null);
   const { setUploadFlag } = useUpload();
   const [type, setType] = useState("Manual Test Cases");
@@ -48,6 +48,11 @@ function JiraDropdown({ onClose, onSuccess }) {
     expiryTimer: null,
     key: "",
   });
+
+  const isFeatureMode = String(createMode).toLowerCase() === "feature";
+  const dialogTitle = isFeatureMode
+    ? "Generate Feature Files & User Stories"
+    : "Generate Test Cases";
 
   // This useEffect enhances the progress bar appearance and behavior
   useEffect(() => {
@@ -307,18 +312,20 @@ function JiraDropdown({ onClose, onSuccess }) {
         : [],
     };
 
+    const endpointPath = isFeatureMode
+      ? "/jira/generate"
+      : "/jira/create/test-cases";
+    const url = `${backend_baseURL}${endpointPath}`;
+
     try {
-      const response = await fetch(
-        `${backend_baseURL}/jira/create/test-cases`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedRequestBody),
-          credentials: "include",
-        }
-      );
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedRequestBody),
+        credentials: "include",
+      });
 
       if (!response.ok) {
         setError(`Request failed: ${response.status} - ${response.statusText}`);
@@ -336,7 +343,7 @@ function JiraDropdown({ onClose, onSuccess }) {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
-
+      let collectedData = ""; 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
@@ -371,15 +378,32 @@ function JiraDropdown({ onClose, onSuccess }) {
               setUserStoryInput("");
               return;
             }
+  if (jsonData.data) {
+    collectedData += jsonData.data;
+  }
 
             if (jsonData.progress === 100) {
               setLoadingResponse(false);
               setKey(jsonData.Key);
-              onSuccess(jsonData.data, type, {
-                epic: { epicName, epicInput },
-                userStory: { userStoryName, userStoryInput },
-                key: jsonData.Key,
+              const payload = jsonData.data || collectedData || "";
+              const artifact = jsonData.artifact; // "features" or "user-stories" from backend
+              const key = jsonData.key; // "story" or "epic" (helps header selection)
+
+              // These come from your current selection state.
+              // If your state names differ, map them accordingly:
+              // e.g., selectedEpicKey / selectedIssueKey or epicLabel / storySummary, etc.
+              onSuccess(payload, isFeatureMode ? "Features" : type, {
+                epic: { epicInput: selectedEpic, epicName }, // <- your existing epic id/name
+                userStory: { userStoryInput: selectedIssue, userStoryName }, // <- your existing story id/name
+                key,
+                artifact,
               });
+
+              // onSuccess(jsonData.data, type, {
+              //   epic: { epicName, epicInput },
+              //   userStory: { userStoryName, userStoryInput },
+              //   key: jsonData.Key,
+              // });
               setEpicInput("");
               setUserStoryInput("");
             }
@@ -421,7 +445,7 @@ function JiraDropdown({ onClose, onSuccess }) {
         <div className="cust-modal-dialog multi-select-dd-pop">
           <div className="cust-modal-content">
             <div className="cust-modal-header">
-              <h6 className="cust-modal-title">Create Jira Test Cases</h6>
+              <h6 className="cust-modal-title">{dialogTitle}</h6>
             </div>
             <div className="no-border">
               <div className="form-group">
