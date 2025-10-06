@@ -1,0 +1,116 @@
+.search-icon {
+    position: absolute;
+    top: 6px;
+    left: 9px;
+}
+
+.search-box {
+    padding: 0.6rem 1rem 0.6rem 1.8rem;
+}
+
+.day {
+    color: #92929d;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.leftnav-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 2.5;
+}
+
+.leftnav-list li {
+    border-right: 3px solid transparent;
+    padding: 0.2rem 1rem;
+    cursor: pointer;
+}
+
+.leftnav-list li:hover {
+    background: #f5f7ff;
+    border-right: 3px solid #3957ca;
+}
+
+.nav-pad {
+    margin: 0.5rem 1rem;
+}
+
+.leftnav-list li span img {
+    margin-right: 4px;
+    margin-bottom: 2px;
+}
+
+.leftnav-scroll {
+    max-height: calc(100vh - 155px);
+    overflow: auto;
+    margin-top: 1rem;
+}
+
+.user-options {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.user-options li {
+    margin: 0 0.8rem;
+    align-self: center;
+}
+
+.notification-mark {
+    position: absolute;
+    top: -6px;
+    left: 10px;
+}
+
+.notification-mark img {
+    height: 14px;
+}
+
+.user-profile {
+    list-style: none;
+    margin-bottom: 0;
+    background-color: #fff;
+    padding: 0;
+    border-radius: 4px;
+    box-shadow: 2px 1px 5px 0px #4a4a4a;
+    position: absolute;
+    width: 185px;
+    right: 0;
+    z-index: 1;
+    margin-top: 7px;
+}
+
+.user-profile li {
+    padding: 0.2rem;
+    margin: 0 !important;
+    border-bottom: 1px solid #cacaca;
+}
+
+.user-profile button {
+    background-color: transparent;
+    border: none;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.user-profile li:hover {
+    background: #0b4ba6;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+}
+
+.user-profile li:hover button {
+    color: #fff;
+}
+
+.user-profile li:last-child {
+    border: none;
+    margin-bottom: 0;
+    border-radius: 0 0 4px 4px;
+}

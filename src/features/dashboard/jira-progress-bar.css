@@ -1,0 +1,246 @@
+/* Enhanced Jira Progress Bar Styles */
+
+/* Progress container */
+.progress-container {
+    /* margin-bottom: 1.5rem; */
+    position: relative;
+    /* padding: 1rem 1rem 0; */
+}
+
+/* Progress message */
+.progress-message {
+    font-weight: bold !important;
+    display: block !important;
+    font-size: 0.7rem !important;
+    color: #646464;
+    margin-bottom: 0.5rem;
+}
+
+/* Jira progress bar container - the background with enhanced blue loading animation */
+.jira-progress-bar-container {
+    position: relative;
+    height: 0.5rem;
+    background-color: #e0ecff !important;
+    /* Blue base color */
+    border-radius: 1rem !important;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    margin-top: 5px;
+
+    /* Add loading animation in the background with enhanced blue colors */
+    background-image: linear-gradient(-45deg,
+            #d0e1ff 25%,
+            /* More saturated blue */
+            #e0ecff 25%,
+            #e0ecff 50%,
+            #d0e1ff 50%,
+            #d0e1ff 75%,
+            #e0ecff 75%,
+            #e0ecff) !important;
+    background-size: 40px 40px !important;
+    animation: progress-background-animation 2s linear infinite !important;
+}
+
+/* Animation for the striped background */
+@keyframes progress-background-animation {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 40px 0;
+    }
+}
+
+/* Inner progress bar - the colored part that fills up */
+.jira-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #0c53b7, #2979ff) !important;
+    position: relative;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px rgba(12, 83, 183, 0.5);
+    transition: width 0.3s linear;
+    z-index: 2;
+    /* Ensure the filled part is above the animated background */
+    width: var(--progress-width, 0%) !important;
+    /* Use the custom property with fallback */
+}
+
+/* Shine effect animation for the filled part */
+.jira-progress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    to {
+        left: 100%;
+    }
+}
+
+/* Progress color states based on percentage */
+/* 0-24% - Red */
+.jira-progress-bar[data-progress="0"],
+.jira-progress-bar[data-progress="1"],
+.jira-progress-bar[data-progress="2"],
+.jira-progress-bar[data-progress="3"],
+.jira-progress-bar[data-progress="4"],
+.jira-progress-bar[data-progress="5"],
+.jira-progress-bar[data-progress="6"],
+.jira-progress-bar[data-progress="7"],
+.jira-progress-bar[data-progress="8"],
+.jira-progress-bar[data-progress="9"],
+.jira-progress-bar[data-progress="10"],
+.jira-progress-bar[data-progress="11"],
+.jira-progress-bar[data-progress="12"],
+.jira-progress-bar[data-progress="13"],
+.jira-progress-bar[data-progress="14"],
+.jira-progress-bar[data-progress="15"],
+.jira-progress-bar[data-progress="16"],
+.jira-progress-bar[data-progress="17"],
+.jira-progress-bar[data-progress="18"],
+.jira-progress-bar[data-progress="19"],
+.jira-progress-bar[data-progress="20"],
+.jira-progress-bar[data-progress="21"],
+.jira-progress-bar[data-progress="22"],
+.jira-progress-bar[data-progress="23"],
+.jira-progress-bar[data-progress="24"] {
+    background: linear-gradient(90deg, #dc3545, #ef5350) !important;
+}
+
+/* 25-49% - Orange */
+.jira-progress-bar[data-progress="25"],
+.jira-progress-bar[data-progress="26"],
+.jira-progress-bar[data-progress="27"],
+.jira-progress-bar[data-progress="28"],
+.jira-progress-bar[data-progress="29"],
+.jira-progress-bar[data-progress="30"],
+.jira-progress-bar[data-progress="31"],
+.jira-progress-bar[data-progress="32"],
+.jira-progress-bar[data-progress="33"],
+.jira-progress-bar[data-progress="34"],
+.jira-progress-bar[data-progress="35"],
+.jira-progress-bar[data-progress="36"],
+.jira-progress-bar[data-progress="37"],
+.jira-progress-bar[data-progress="38"],
+.jira-progress-bar[data-progress="39"],
+.jira-progress-bar[data-progress="40"],
+.jira-progress-bar[data-progress="41"],
+.jira-progress-bar[data-progress="42"],
+.jira-progress-bar[data-progress="43"],
+.jira-progress-bar[data-progress="44"],
+.jira-progress-bar[data-progress="45"],
+.jira-progress-bar[data-progress="46"],
+.jira-progress-bar[data-progress="47"],
+.jira-progress-bar[data-progress="48"],
+.jira-progress-bar[data-progress="49"] {
+    background: linear-gradient(90deg, #fd7e14, #ff9800) !important;
+}
+
+/* 50-74% - Yellow to Blue */
+.jira-progress-bar[data-progress="50"],
+.jira-progress-bar[data-progress="51"],
+.jira-progress-bar[data-progress="52"],
+.jira-progress-bar[data-progress="53"],
+.jira-progress-bar[data-progress="54"],
+.jira-progress-bar[data-progress="55"],
+.jira-progress-bar[data-progress="56"],
+.jira-progress-bar[data-progress="57"],
+.jira-progress-bar[data-progress="58"],
+.jira-progress-bar[data-progress="59"],
+.jira-progress-bar[data-progress="60"],
+.jira-progress-bar[data-progress="61"],
+.jira-progress-bar[data-progress="62"],
+.jira-progress-bar[data-progress="63"],
+.jira-progress-bar[data-progress="64"],
+.jira-progress-bar[data-progress="65"],
+.jira-progress-bar[data-progress="66"],
+.jira-progress-bar[data-progress="67"],
+.jira-progress-bar[data-progress="68"],
+.jira-progress-bar[data-progress="69"],
+.jira-progress-bar[data-progress="70"],
+.jira-progress-bar[data-progress="71"],
+.jira-progress-bar[data-progress="72"],
+.jira-progress-bar[data-progress="73"],
+.jira-progress-bar[data-progress="74"] {
+    background: linear-gradient(90deg, #ffc107, #0d6efd) !important;
+}
+
+/* 75-99% - Blue to Green */
+.jira-progress-bar[data-progress="75"],
+.jira-progress-bar[data-progress="76"],
+.jira-progress-bar[data-progress="77"],
+.jira-progress-bar[data-progress="78"],
+.jira-progress-bar[data-progress="79"],
+.jira-progress-bar[data-progress="80"],
+.jira-progress-bar[data-progress="81"],
+.jira-progress-bar[data-progress="82"],
+.jira-progress-bar[data-progress="83"],
+.jira-progress-bar[data-progress="84"],
+.jira-progress-bar[data-progress="85"],
+.jira-progress-bar[data-progress="86"],
+.jira-progress-bar[data-progress="87"],
+.jira-progress-bar[data-progress="88"],
+.jira-progress-bar[data-progress="89"],
+.jira-progress-bar[data-progress="90"],
+.jira-progress-bar[data-progress="91"],
+.jira-progress-bar[data-progress="92"],
+.jira-progress-bar[data-progress="93"],
+.jira-progress-bar[data-progress="94"],
+.jira-progress-bar[data-progress="95"],
+.jira-progress-bar[data-progress="96"],
+.jira-progress-bar[data-progress="97"],
+.jira-progress-bar[data-progress="98"],
+.jira-progress-bar[data-progress="99"] {
+    background: linear-gradient(90deg, #0d6efd, #198754) !important;
+}
+
+/* 100% - Green */
+.jira-progress-bar[data-progress="100"] {
+    background: linear-gradient(90deg, #198754, #4caf50) !important;
+}
+
+/* At 100%, remove the animation to signal that loading is complete */
+.jira-progress-bar[data-progress="100"]~.jira-progress-bar-container,
+.progress-container[data-complete="true"] .jira-progress-bar-container {
+    animation: none !important;
+    background-image: none !important;
+    background-color: #e0ecff !important;
+}
+
+/* Completion indicator when at 100% */
+.progress-message[data-complete="true"]::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2322c55e' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+    background-size: contain;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .progress-container {
+        padding: 0.75rem 0.75rem 0;
+    }
+
+    .progress-message {
+        font-size: 0.65rem !important;
+    }
+
+    .jira-progress-bar-container {
+        height: 0.4rem !important;
+    }
+}

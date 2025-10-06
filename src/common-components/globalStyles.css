@@ -1,0 +1,1539 @@
+body {
+  font-family: "inter", sans-serif !important;
+}
+
+.pos-rel {
+  position: relative;
+}
+
+.login-left-banner-img {
+  width: 100%;
+  background: #1b154c;
+  height: 100vh;
+}
+
+.data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-banner-content {
+  position: absolute;
+  bottom: 0;
+  left: 7%;
+  transform: translate(0, -50%);
+  color: #fff;
+  width: 80%;
+}
+
+
+.login-banner-desc {
+  color: #ffffff;
+  margin-top: 1rem;
+}
+
+.login-logo {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+
+.login-logo img {
+  height: 35px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+}
+
+.just-space {
+  justify-content: right;
+}
+
+.btn-primary {
+  background-color: #0c53b7 !important;
+  border-color: #0c53b7 !important;
+}
+
+.btn-secondary {
+  background-color: transparent !important;
+  border-color: #eeedf0 !important;
+  color: #1c1c1c !important;
+}
+
+button {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+}
+
+a,
+.cred-link {
+  color: #0c53b7 !important;
+  text-decoration: none !important;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background-color: transparent;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 0.7rem;
+  top: 45px;
+  cursor: pointer;
+}
+
+.eye-icon-without-label {
+  top: 5px !important;
+}
+
+.eye-icon::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background-color: #b6b6b6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.eye-icon-slash::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+  opacity: 1;
+}
+
+.login-card {
+  height: 100vh !important;
+}
+
+.login-form {
+  margin: auto;
+  width: 80%;
+}
+
+.form-control,
+.form-select {
+  font-size: 14px;
+  padding: 0.7rem 0.5rem;
+}
+
+.form-control,
+.form-check-input,
+.form-select {
+  box-shadow: none !important;
+}
+
+.form-check-input:checked {
+  background-color: #0c53b7 !important;
+  border-color: #0c53b7 !important;
+}
+
+/* Main screen styles */
+.main-body {
+  display: flex;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.leftnav {
+  width: 300px;
+  background-color: #ffffff;
+  border-right: 1px solid #eeedf0;
+}
+
+.play-screen {
+  width: 100%;
+  z-index: 0;
+}
+
+.logo {
+  padding: 0;
+  /* height: 65px; */
+}
+
+.search-icon {
+  position: absolute;
+  top: 6px;
+  left: 9px;
+}
+
+.search-box {
+  padding: 0.6rem 1rem 0.6rem 1.8rem;
+}
+
+.day {
+  color: #92929d;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.leftnav-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 2.5;
+}
+
+.leftnav-list li {
+  border-right: 3px solid transparent;
+  padding: 0.2rem 1rem;
+  cursor: pointer;
+}
+
+.leftnav-list li:hover {
+  background: #f5f7ff;
+  border-right: 3px solid #3957ca;
+}
+
+.nav-pad {
+  margin: 0.5rem 1rem;
+}
+
+.leftnav-list li span img {
+  margin-right: 4px;
+  margin-bottom: 2px;
+}
+
+.leftnav-scroll {
+  max-height: calc(100vh - 155px);
+  overflow: auto;
+  margin-top: 1rem;
+}
+
+.main-header {
+  padding: 0.59rem 1rem;
+  border-bottom: 1px solid #eeedf0;
+  /* border-left: 1px solid #eeedf0; */
+  background-color: #fff;
+  /* height: 65px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-options {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.user-options li {
+  margin: 0 0.8rem;
+  align-self: center;
+}
+
+.notification-mark {
+  position: absolute;
+  top: -6px;
+  left: 10px;
+}
+
+.notification-mark img {
+  height: 14px;
+}
+
+.landing-empty-header {
+  font-size: 36px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.content-text,
+p {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.empty-screen {
+  display: flex;
+  
+}
+
+.empty-screen img {
+  height: 100px;
+}
+
+.create-new-dropdown {
+  list-style: none;
+  margin-bottom: 0;
+  border-bottom: 1px solid #eeedf0;
+  padding-left: 0;
+}
+
+.create-new-card {
+  position: absolute;
+  border-radius: 8px !important;
+  box-shadow: 0px 10px 20px 1px #0000000d;
+  padding: 1rem;
+  border: 1px solid #eeedf0 !important;
+  z-index: 1;
+  min-width: 300px !important;
+  margin-top: 0.5rem;
+}
+
+/* Employee searh new styles */
+.srch-empl-cont-label {
+  font-weight: 500;
+  color: #6c757d;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+
+.srch-empl-cont-data {
+  color: #434345;
+  font-size: 14px;
+  margin-bottom: 1rem;
+}
+
+.employeesearchtbl {
+  border: 1px solid #dee2e6;
+  border-radius: 9px;
+}
+
+.emplyee-search-tbl th {
+  color: #6c757d !important;
+  font-weight: 600;
+  border-radius: 9px;
+}
+
+.project-title-in-tbl {
+  text-decoration: underline;
+}
+
+.tbl-title {
+  color: #1a2942;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.emplyee-search-tbl {
+  margin-bottom: 0 !important;
+}
+
+.emplyee-search-tbl tr:last-child td {
+  border: none;
+  background: transparent;
+}
+
+/* New styles after submission */
+.create-new-dropdown li {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.create-new-label {
+  font-size: 14px;
+  font-weight: 600;
+  /* margin-bottom: 6px; */
+  margin: 0 0;
+}
+
+.close-icon-green {
+  float: right;
+  margin-top: 3px;
+  cursor: pointer;
+  margin-left: 2rem;
+}
+
+.vert-mdle {
+  vertical-align: middle;
+  margin-left: 0.6rem;
+}
+
+.alert-primary {
+  background-color: #22c55e14 !important;
+  border: 1px solid #22c55e29 !important;
+  color: #118d57 !important;
+  font-weight: 400;
+  position: absolute !important;
+  top: 0;
+  left: 50%;
+  transform: translate(-40%, 20%);
+  padding: 0.6rem 1rem !important;
+  min-width: 400px;
+  margin-bottom: 0 !important;
+  font-size: 14px;
+  border-radius: 8px !important;
+}
+
+.btm-brdr {
+  border-bottom: 1px solid #eeedf0;
+}
+
+.just-space-btwn {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked+.slider {
+  background-color: #2196f3;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.product-list {
+  padding: 1rem 1rem;
+}
+
+.product-list-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Main progress bar container */
+.progress-bar {
+  padding: 1rem 1rem 0;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* Text display - Right-aligned */
+.progress-bar .d-flex.just-space {
+  justify-content: space-between !important;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.progress-bar .d-flex.just-space span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #646464;
+  display: flex;
+  align-items: center;
+}
+
+/* Outer progress container - the background with loading animation */
+.progress {
+  --bs-progress-height: 0.5rem !important;
+  margin-top: 5px;
+  background-color: #d0e1ff !important;
+  border-radius: 1rem !important;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  /* Add loading animation in the background */
+  background-image: linear-gradient(-45deg,
+      #d0e1ff 25%,
+      #e6eeff 25%,
+      #e6eeff 50%,
+      #d0e1ff 50%,
+      #d0e1ff 75%,
+      #e6eeff 75%,
+      #e6eeff) !important;
+  background-size: 40px 40px !important;
+  animation: progress-background-animation 2s linear infinite !important;
+}
+
+/* Animation for the striped background */
+@keyframes progress-background-animation {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 40px 0;
+  }
+}
+
+/* Inner progress bar - the colored part that fills up */
+.progress .progress-bar {
+  /* CRITICAL FIX: Ensure width is accurately reflecting the exact value */
+  /* Specifically fixing the progress discrepancy issue */
+  width: var(--progress-width) !important;
+  /* Use the inline style width */
+  padding: 0;
+  /* Reset padding for nested progress-bar */
+
+  /* Visual styling */
+  background: linear-gradient(90deg, #0c53b7, #2979ff) !important;
+  position: relative;
+  border-radius: 1rem;
+  height: 100%;
+  box-shadow: 0 0 5px rgba(12, 83, 183, 0.5);
+  overflow: hidden;
+
+  /* Ensure smooth transitions, but keep them quick */
+  transition: width 0.3s linear;
+  z-index: 2;
+  /* Ensure the filled part is above the animated background */
+}
+
+/* Add a small delay before hiding to ensure the user sees 100% */
+.progress .progress-bar[style*="width: 100%"] {
+  transition: width 0.3s linear, opacity 0.3s 0.5s;
+}
+
+/* Shine effect animation for the filled part */
+.progress .progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  to {
+    left: 100%;
+  }
+}
+
+/* Progress states - Color coding based on progress percentage */
+/* These ensure the color changes at the right thresholds */
+.progress .progress-bar[style*="width: 0%"],
+.progress .progress-bar[style*="width: 1%"],
+.progress .progress-bar[style*="width: 2%"],
+.progress .progress-bar[style*="width: 3%"],
+.progress .progress-bar[style*="width: 4%"],
+.progress .progress-bar[style*="width: 5%"],
+.progress .progress-bar[style*="width: 6%"],
+.progress .progress-bar[style*="width: 7%"],
+.progress .progress-bar[style*="width: 8%"],
+.progress .progress-bar[style*="width: 9%"],
+.progress .progress-bar[style*="width: 10%"],
+.progress .progress-bar[style*="width: 11%"],
+.progress .progress-bar[style*="width: 12%"],
+.progress .progress-bar[style*="width: 13%"],
+.progress .progress-bar[style*="width: 14%"],
+.progress .progress-bar[style*="width: 15%"],
+.progress .progress-bar[style*="width: 16%"],
+.progress .progress-bar[style*="width: 17%"],
+.progress .progress-bar[style*="width: 18%"],
+.progress .progress-bar[style*="width: 19%"],
+.progress .progress-bar[style*="width: 20%"],
+.progress .progress-bar[style*="width: 21%"],
+.progress .progress-bar[style*="width: 22%"],
+.progress .progress-bar[style*="width: 23%"],
+.progress .progress-bar[style*="width: 24%"] {
+  background: linear-gradient(90deg, #dc3545, #ef5350) !important;
+}
+
+.progress .progress-bar[style*="width: 25%"],
+.progress .progress-bar[style*="width: 26%"],
+.progress .progress-bar[style*="width: 27%"],
+.progress .progress-bar[style*="width: 28%"],
+.progress .progress-bar[style*="width: 29%"],
+.progress .progress-bar[style*="width: 30%"],
+.progress .progress-bar[style*="width: 31%"],
+.progress .progress-bar[style*="width: 32%"],
+.progress .progress-bar[style*="width: 33%"],
+.progress .progress-bar[style*="width: 34%"],
+.progress .progress-bar[style*="width: 35%"],
+.progress .progress-bar[style*="width: 36%"],
+.progress .progress-bar[style*="width: 37%"],
+.progress .progress-bar[style*="width: 38%"],
+.progress .progress-bar[style*="width: 39%"],
+.progress .progress-bar[style*="width: 40%"],
+.progress .progress-bar[style*="width: 41%"],
+.progress .progress-bar[style*="width: 42%"],
+.progress .progress-bar[style*="width: 43%"],
+.progress .progress-bar[style*="width: 44%"],
+.progress .progress-bar[style*="width: 45%"],
+.progress .progress-bar[style*="width: 46%"],
+.progress .progress-bar[style*="width: 47%"],
+.progress .progress-bar[style*="width: 48%"],
+.progress .progress-bar[style*="width: 49%"] {
+  background: linear-gradient(90deg, #fd7e14, #ff9800) !important;
+}
+
+.progress .progress-bar[style*="width: 50%"],
+.progress .progress-bar[style*="width: 51%"],
+.progress .progress-bar[style*="width: 52%"],
+.progress .progress-bar[style*="width: 53%"],
+.progress .progress-bar[style*="width: 54%"],
+.progress .progress-bar[style*="width: 55%"],
+.progress .progress-bar[style*="width: 56%"],
+.progress .progress-bar[style*="width: 57%"],
+.progress .progress-bar[style*="width: 58%"],
+.progress .progress-bar[style*="width: 59%"],
+.progress .progress-bar[style*="width: 60%"],
+.progress .progress-bar[style*="width: 61%"],
+.progress .progress-bar[style*="width: 62%"],
+.progress .progress-bar[style*="width: 63%"],
+.progress .progress-bar[style*="width: 64%"],
+.progress .progress-bar[style*="width: 65%"],
+.progress .progress-bar[style*="width: 66%"],
+.progress .progress-bar[style*="width: 67%"],
+.progress .progress-bar[style*="width: 68%"],
+.progress .progress-bar[style*="width: 69%"],
+.progress .progress-bar[style*="width: 70%"],
+.progress .progress-bar[style*="width: 71%"],
+.progress .progress-bar[style*="width: 72%"],
+.progress .progress-bar[style*="width: 73%"],
+.progress .progress-bar[style*="width: 74%"] {
+  background: linear-gradient(90deg, #ffc107, #0d6efd) !important;
+}
+
+.progress .progress-bar[style*="width: 75%"],
+.progress .progress-bar[style*="width: 76%"],
+.progress .progress-bar[style*="width: 77%"],
+.progress .progress-bar[style*="width: 78%"],
+.progress .progress-bar[style*="width: 79%"],
+.progress .progress-bar[style*="width: 80%"],
+.progress .progress-bar[style*="width: 81%"],
+.progress .progress-bar[style*="width: 82%"],
+.progress .progress-bar[style*="width: 83%"],
+.progress .progress-bar[style*="width: 84%"],
+.progress .progress-bar[style*="width: 85%"],
+.progress .progress-bar[style*="width: 86%"],
+.progress .progress-bar[style*="width: 87%"],
+.progress .progress-bar[style*="width: 88%"],
+.progress .progress-bar[style*="width: 89%"],
+.progress .progress-bar[style*="width: 90%"],
+.progress .progress-bar[style*="width: 91%"],
+.progress .progress-bar[style*="width: 92%"],
+.progress .progress-bar[style*="width: 93%"],
+.progress .progress-bar[style*="width: 94%"],
+.progress .progress-bar[style*="width: 95%"],
+.progress .progress-bar[style*="width: 96%"],
+.progress .progress-bar[style*="width: 97%"],
+.progress .progress-bar[style*="width: 98%"],
+.progress .progress-bar[style*="width: 99%"] {
+  background: linear-gradient(90deg, #0d6efd, #198754) !important;
+}
+
+.progress .progress-bar[style*="width: 100%"] {
+  background: linear-gradient(90deg, #198754, #4caf50) !important;
+}
+
+/* At 100%, remove the animation to signal that loading is complete */
+.progress .progress-bar[style*="width: 100%"]+.progress {
+  animation: none !important;
+  background-image: none !important;
+  background-color: #d0e1ff !important;
+}
+
+/* Optional: Add completion indicator when at 100% */
+.progress-bar .d-flex.just-space span[data-progress="100%"]::after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2322c55e' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+  background-size: contain;
+  margin-left: 8px;
+}
+
+/* This specifically sets text alignment to right and uses the just-space class correctly */
+.just-space {
+  justify-content: flex-end !important;
+  text-align: right !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .progress-bar {
+    padding: 0.75rem 0.75rem 0;
+  }
+
+  .progress-bar .d-flex.just-space span {
+    font-size: 12px;
+  }
+
+  .progress {
+    --bs-progress-height: 0.4rem !important;
+  }
+}
+
+.product-title-header {
+  /* border-bottom: 1px solid #eeedf0; */
+  /* padding-bottom: 0.5rem; */
+  /* margin-bottom: 1rem; */
+  padding: 0 1.1rem;
+  justify-content: right;
+  flex-direction: row-reverse;
+}
+
+.product-list-main-title {
+  color: #1c1c1c;
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: 1rem;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+.font-18 {
+  font-size: 18px;
+}
+
+.products-lists {
+  padding-left: 1rem;
+}
+
+.product-list-controlls {
+  padding-left: 0;
+  margin-bottom: 0;
+  display: flex;
+  list-style: none;
+}
+
+.product-list-controlls li {
+  margin: 0 0.5rem;
+  cursor: pointer;
+  align-self: center;
+}
+
+.select-file-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0.3rem 0;
+}
+
+.muted-text {
+  color: #646464;
+}
+
+.drag-file {
+  font-size: 12px;
+}
+
+.select-file-con {
+  margin: auto;
+  text-align: center;
+  cursor: all-scroll;
+  padding: 1.7rem 1rem 0.9rem 1rem;
+}
+
+.select-file-icon {
+  height: 45px;
+}
+
+.cust-modal {
+  width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.fileupload .cust-modal-body {
+  border: 1px dashed #6984a9;
+}
+
+.fileupload .btn-close {
+  font-size: 10px !important;
+  box-shadow: none !important;
+  align-self: end;
+}
+
+.cust-modal {
+  display: block !important;
+}
+
+.fileupload .cust-modal-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) !important;
+  margin: 0;
+  width: 50%;
+  width: 500px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.popup-backdrop {
+  background-color: #0000005e;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  /* z-index: 1; */
+}
+
+.cust-modal-header {
+  border-bottom: none !important;
+  padding: 0 !important;
+  margin-bottom: 1.6rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cust-modal-title {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin: 0;
+}
+
+.cust-modal-content {
+  padding: 1.1rem 1.6rem;
+}
+
+.upload-url-txt {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0.9rem 0;
+}
+
+.ip-field-font-size {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.upload-url {
+  margin: 0.9rem 0 0.7rem;
+}
+
+.upload-txt {
+  position: absolute;
+  right: 0.8rem;
+  top: 0.57rem;
+  color: #0c53b7;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Newly added Styles */
+.error {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.validation-fields {
+  border-color: red !important;
+}
+
+.required {
+  color: red;
+  font-size: 14px;
+}
+
+.required-mark {
+  color: red;
+  margin-left: 2px;
+}
+
+.user-profile {
+  list-style: none;
+  margin-bottom: 0;
+  background-color: #fff;
+  padding: 0;
+  border-radius: 4px;
+  box-shadow: 2px 1px 5px 0px #4a4a4a;
+  position: absolute;
+  width: 185px;
+  right: 0;
+  z-index: 1;
+  margin-top: 7px;
+}
+
+.user-profile li {
+  padding: 0.2rem;
+  margin: 0 !important;
+  border-bottom: 1px solid #cacaca;
+}
+
+.user-profile button {
+  background-color: transparent;
+  border: none;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.user-profile li:hover {
+  background: #0b4ba6;
+  border-radius: 4px 4px 0 0;
+  cursor: pointer;
+}
+
+.user-profile li:hover button {
+  color: #fff;
+}
+
+.user-profile li:last-child {
+  border: none;
+  margin-bottom: 0;
+  border-radius: 0 0 4px 4px;
+}
+
+.success-check-icon {
+  align-self: center;
+  margin-left: auto;
+}
+
+.divcontents {
+  display: contents;
+}
+
+.vert-align-img {
+  margin-bottom: 2px;
+}
+
+.multi-select-dd-pop {
+  width: 400px !important;
+}
+
+.multi-select-dd-pop .form-select {
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  padding-right: 1.9rem !important;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.cust-toster {
+  position: absolute;
+  left: 62.5%;
+  top: 2%;
+  transform: translate(0, 0);
+}
+
+.error-message {
+  font-size: 12px;
+  color: #ff4d4d;
+  margin-top: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* Container to properly align the toasters below the "Create New" section */
+.toaster-container {
+  top: 0;
+  position: absolute;
+  /* Keeps it within the flow */
+  width: 70%;
+  /* margin-top: 10px; /* Adds spacing between Create New and toasters */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Centers the toasters */
+  z-index: 1000;
+  /* Ensures it appears above other content */
+}
+
+/* General Toaster Styles */
+.dashboard-toster {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  max-width: 600px;
+  padding: 12px 20px;
+  /* padding: 0; */
+  margin: 0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-in-out, fadeOut 0.5s ease-in-out 2.5s forwards;
+}
+
+/* Success Toaster */
+.dashboard-alert-primary {
+  background-color: #d4edda;
+  color: #155724;
+  border-left: 5px solid #28a745;
+}
+
+/* Error Toaster */
+.dashboard-alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-left: 5px solid #dc3545;
+}
+
+/* Close Icon */
+.close-icon-red,
+.close-icon-green {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  margin-left: 10px;
+}
+
+/* Smooth fade-in effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade-out effect */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.download-container {
+  position: relative;
+  display: inline-block;
+}
+
+.download-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Dropdown styles */
+.download-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  list-style: none;
+  padding: 8px 0;
+  margin: 5px 0 0;
+  min-width: 200px;
+  z-index: 1050;
+}
+
+.download-dropdown li {
+  padding: 10px 16px;
+}
+
+.download-dropdown li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Enhanced Jira Progress Bar Styles */
+
+/* Progress container */
+.progress-container {
+  /* margin-bottom: 1.5rem; */
+  position: relative;
+  /* padding: 1rem 1rem 0; */
+}
+
+/* Progress message */
+.progress-message {
+  font-weight: bold !important;
+  display: block !important;
+  font-size: 0.7rem !important;
+  color: #646464;
+  margin-bottom: 0.5rem;
+}
+
+/* Jira progress bar container - the background with enhanced blue loading animation */
+.jira-progress-bar-container {
+  position: relative;
+  height: 0.5rem;
+  background-color: #e0ecff !important;
+  /* Made base color more blue */
+  border-radius: 1rem !important;
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  margin-top: 5px;
+
+  /* Add loading animation in the background with enhanced blue colors */
+  background-image: linear-gradient(-45deg,
+      #d0e1ff 25%,
+      /* More saturated blue */
+      #e0ecff 25%,
+      #e0ecff 50%,
+      #d0e1ff 50%,
+      #d0e1ff 75%,
+      #e0ecff 75%,
+      #e0ecff) !important;
+  background-size: 40px 40px !important;
+  animation: progress-background-animation 2s linear infinite !important;
+}
+
+/* Animation for the striped background */
+@keyframes progress-background-animation {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 40px 0;
+  }
+}
+
+/* Inner progress bar - the colored part that fills up */
+.jira-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #0c53b7, #2979ff) !important;
+  position: relative;
+  border-radius: 1rem;
+  box-shadow: 0 0 5px rgba(12, 83, 183, 0.5);
+  transition: width 0.3s linear;
+  z-index: 2;
+  /* Ensure the filled part is above the animated background */
+  width: var(--progress-width, 0%) !important;
+  /* Use the custom property with fallback */
+}
+
+/* Shine effect animation for the filled part */
+.jira-progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  to {
+    left: 100%;
+  }
+}
+
+/* Progress states - Color coding based on progress percentage */
+/* These ensure the color changes at the right thresholds */
+.jira-progress-bar[style*="width: 0%"],
+.jira-progress-bar[style*="width:0%"],
+.jira-progress-bar[data-progress="0"],
+.jira-progress-bar[style*="width: 1%"],
+.jira-progress-bar[style*="width:1%"],
+.jira-progress-bar[data-progress="1"],
+.jira-progress-bar[style*="width: 2%"],
+.jira-progress-bar[style*="width:2%"],
+.jira-progress-bar[data-progress="2"],
+.jira-progress-bar[style*="width: 3%"],
+.jira-progress-bar[style*="width:3%"],
+.jira-progress-bar[data-progress="3"],
+.jira-progress-bar[style*="width: 4%"],
+.jira-progress-bar[style*="width:4%"],
+.jira-progress-bar[data-progress="4"],
+.jira-progress-bar[style*="width: 5%"],
+.jira-progress-bar[style*="width:5%"],
+.jira-progress-bar[data-progress="5"],
+.jira-progress-bar[style*="width: 6%"],
+.jira-progress-bar[style*="width:6%"],
+.jira-progress-bar[data-progress="6"],
+.jira-progress-bar[style*="width: 7%"],
+.jira-progress-bar[style*="width:7%"],
+.jira-progress-bar[data-progress="7"],
+.jira-progress-bar[style*="width: 8%"],
+.jira-progress-bar[style*="width:8%"],
+.jira-progress-bar[data-progress="8"],
+.jira-progress-bar[style*="width: 9%"],
+.jira-progress-bar[style*="width:9%"],
+.jira-progress-bar[data-progress="9"],
+.jira-progress-bar[style*="width: 10%"],
+.jira-progress-bar[style*="width:10%"],
+.jira-progress-bar[data-progress="10"],
+.jira-progress-bar[style*="width: 11%"],
+.jira-progress-bar[style*="width:11%"],
+.jira-progress-bar[data-progress="11"],
+.jira-progress-bar[style*="width: 12%"],
+.jira-progress-bar[style*="width:12%"],
+.jira-progress-bar[data-progress="12"],
+.jira-progress-bar[style*="width: 13%"],
+.jira-progress-bar[style*="width:13%"],
+.jira-progress-bar[data-progress="13"],
+.jira-progress-bar[style*="width: 14%"],
+.jira-progress-bar[style*="width:14%"],
+.jira-progress-bar[data-progress="14"],
+.jira-progress-bar[style*="width: 15%"],
+.jira-progress-bar[style*="width:15%"],
+.jira-progress-bar[data-progress="15"],
+.jira-progress-bar[style*="width: 16%"],
+.jira-progress-bar[style*="width:16%"],
+.jira-progress-bar[data-progress="16"],
+.jira-progress-bar[style*="width: 17%"],
+.jira-progress-bar[style*="width:17%"],
+.jira-progress-bar[data-progress="17"],
+.jira-progress-bar[style*="width: 18%"],
+.jira-progress-bar[style*="width:18%"],
+.jira-progress-bar[data-progress="18"],
+.jira-progress-bar[style*="width: 19%"],
+.jira-progress-bar[style*="width:19%"],
+.jira-progress-bar[data-progress="19"],
+.jira-progress-bar[style*="width: 20%"],
+.jira-progress-bar[style*="width:20%"],
+.jira-progress-bar[data-progress="20"],
+.jira-progress-bar[style*="width: 21%"],
+.jira-progress-bar[style*="width:21%"],
+.jira-progress-bar[data-progress="21"],
+.jira-progress-bar[style*="width: 22%"],
+.jira-progress-bar[style*="width:22%"],
+.jira-progress-bar[data-progress="22"],
+.jira-progress-bar[style*="width: 23%"],
+.jira-progress-bar[style*="width:23%"],
+.jira-progress-bar[data-progress="23"],
+.jira-progress-bar[style*="width: 24%"],
+.jira-progress-bar[style*="width:24%"],
+.jira-progress-bar[data-progress="24"] {
+  background: linear-gradient(90deg, #dc3545, #ef5350) !important;
+}
+
+.jira-progress-bar[style*="width: 25%"],
+.jira-progress-bar[style*="width:25%"],
+.jira-progress-bar[data-progress="25"],
+.jira-progress-bar[style*="width: 26%"],
+.jira-progress-bar[style*="width:26%"],
+.jira-progress-bar[data-progress="26"],
+.jira-progress-bar[style*="width: 27%"],
+.jira-progress-bar[style*="width:27%"],
+.jira-progress-bar[data-progress="27"],
+.jira-progress-bar[style*="width: 28%"],
+.jira-progress-bar[style*="width:28%"],
+.jira-progress-bar[data-progress="28"],
+.jira-progress-bar[style*="width: 29%"],
+.jira-progress-bar[style*="width:29%"],
+.jira-progress-bar[data-progress="29"],
+.jira-progress-bar[style*="width: 30%"],
+.jira-progress-bar[style*="width:30%"],
+.jira-progress-bar[data-progress="30"],
+.jira-progress-bar[style*="width: 31%"],
+.jira-progress-bar[style*="width:31%"],
+.jira-progress-bar[data-progress="31"],
+.jira-progress-bar[style*="width: 32%"],
+.jira-progress-bar[style*="width:32%"],
+.jira-progress-bar[data-progress="32"],
+.jira-progress-bar[style*="width: 33%"],
+.jira-progress-bar[style*="width:33%"],
+.jira-progress-bar[data-progress="33"],
+.jira-progress-bar[style*="width: 34%"],
+.jira-progress-bar[style*="width:34%"],
+.jira-progress-bar[data-progress="34"],
+.jira-progress-bar[style*="width: 35%"],
+.jira-progress-bar[style*="width:35%"],
+.jira-progress-bar[data-progress="35"],
+.jira-progress-bar[style*="width: 36%"],
+.jira-progress-bar[style*="width:36%"],
+.jira-progress-bar[data-progress="36"],
+.jira-progress-bar[style*="width: 37%"],
+.jira-progress-bar[style*="width:37%"],
+.jira-progress-bar[data-progress="37"],
+.jira-progress-bar[style*="width: 38%"],
+.jira-progress-bar[style*="width:38%"],
+.jira-progress-bar[data-progress="38"],
+.jira-progress-bar[style*="width: 39%"],
+.jira-progress-bar[style*="width:39%"],
+.jira-progress-bar[data-progress="39"],
+.jira-progress-bar[style*="width: 40%"],
+.jira-progress-bar[style*="width:40%"],
+.jira-progress-bar[data-progress="40"],
+.jira-progress-bar[style*="width: 41%"],
+.jira-progress-bar[style*="width:41%"],
+.jira-progress-bar[data-progress="41"],
+.jira-progress-bar[style*="width: 42%"],
+.jira-progress-bar[style*="width:42%"],
+.jira-progress-bar[data-progress="42"],
+.jira-progress-bar[style*="width: 43%"],
+.jira-progress-bar[style*="width:43%"],
+.jira-progress-bar[data-progress="43"],
+.jira-progress-bar[style*="width: 44%"],
+.jira-progress-bar[style*="width:44%"],
+.jira-progress-bar[data-progress="44"],
+.jira-progress-bar[style*="width: 45%"],
+.jira-progress-bar[style*="width:45%"],
+.jira-progress-bar[data-progress="45"],
+.jira-progress-bar[style*="width: 46%"],
+.jira-progress-bar[style*="width:46%"],
+.jira-progress-bar[data-progress="46"],
+.jira-progress-bar[style*="width: 47%"],
+.jira-progress-bar[style*="width:47%"],
+.jira-progress-bar[data-progress="47"],
+.jira-progress-bar[style*="width: 48%"],
+.jira-progress-bar[style*="width:48%"],
+.jira-progress-bar[data-progress="48"],
+.jira-progress-bar[style*="width: 49%"],
+.jira-progress-bar[style*="width:49%"],
+.jira-progress-bar[data-progress="49"] {
+  background: linear-gradient(90deg, #fd7e14, #ff9800) !important;
+}
+
+.jira-progress-bar[style*="width: 50%"],
+.jira-progress-bar[style*="width:50%"],
+.jira-progress-bar[data-progress="50"],
+.jira-progress-bar[style*="width: 5"][style*="1%"],
+.jira-progress-bar[style*="width:5"][style*="1%"],
+.jira-progress-bar[data-progress="51"],
+.jira-progress-bar[style*="width: 5"][style*="2%"],
+.jira-progress-bar[style*="width:5"][style*="2%"],
+.jira-progress-bar[data-progress="52"],
+.jira-progress-bar[style*="width: 5"][style*="3%"],
+.jira-progress-bar[style*="width:5"][style*="3%"],
+.jira-progress-bar[data-progress="53"],
+.jira-progress-bar[style*="width: 5"][style*="4%"],
+.jira-progress-bar[style*="width:5"][style*="4%"],
+.jira-progress-bar[data-progress="54"],
+.jira-progress-bar[style*="width: 5"][style*="5%"],
+.jira-progress-bar[style*="width:5"][style*="5%"],
+.jira-progress-bar[data-progress="55"],
+.jira-progress-bar[style*="width: 5"][style*="6%"],
+.jira-progress-bar[style*="width:5"][style*="6%"],
+.jira-progress-bar[data-progress="56"],
+.jira-progress-bar[style*="width: 5"][style*="7%"],
+.jira-progress-bar[style*="width:5"][style*="7%"],
+.jira-progress-bar[data-progress="57"],
+.jira-progress-bar[style*="width: 5"][style*="8%"],
+.jira-progress-bar[style*="width:5"][style*="8%"],
+.jira-progress-bar[data-progress="58"],
+.jira-progress-bar[style*="width: 5"][style*="9%"],
+.jira-progress-bar[style*="width:5"][style*="9%"],
+.jira-progress-bar[data-progress="59"],
+.jira-progress-bar[style*="width: 60%"],
+.jira-progress-bar[style*="width:60%"],
+.jira-progress-bar[data-progress="60"],
+.jira-progress-bar[style*="width: 6"][style*="1%"],
+.jira-progress-bar[style*="width:6"][style*="1%"],
+.jira-progress-bar[data-progress="61"],
+.jira-progress-bar[style*="width: 6"][style*="2%"],
+.jira-progress-bar[style*="width:6"][style*="2%"],
+.jira-progress-bar[data-progress="62"],
+.jira-progress-bar[style*="width: 6"][style*="3%"],
+.jira-progress-bar[style*="width:6"][style*="3%"],
+.jira-progress-bar[data-progress="63"],
+.jira-progress-bar[style*="width: 6"][style*="4%"],
+.jira-progress-bar[style*="width:6"][style*="4%"],
+.jira-progress-bar[data-progress="64"],
+.jira-progress-bar[style*="width: 6"][style*="5%"],
+.jira-progress-bar[style*="width:6"][style*="5%"],
+.jira-progress-bar[data-progress="65"],
+.jira-progress-bar[style*="width: 6"][style*="6%"],
+.jira-progress-bar[style*="width:6"][style*="6%"],
+.jira-progress-bar[data-progress="66"],
+.jira-progress-bar[style*="width: 6"][style*="7%"],
+.jira-progress-bar[style*="width:6"][style*="7%"],
+.jira-progress-bar[data-progress="67"],
+.jira-progress-bar[style*="width: 6"][style*="8%"],
+.jira-progress-bar[style*="width:6"][style*="8%"],
+.jira-progress-bar[data-progress="68"],
+.jira-progress-bar[style*="width: 6"][style*="9%"],
+.jira-progress-bar[style*="width:6"][style*="9%"],
+.jira-progress-bar[data-progress="69"],
+.jira-progress-bar[style*="width: 70%"],
+.jira-progress-bar[style*="width:70%"],
+.jira-progress-bar[data-progress="70"],
+.jira-progress-bar[style*="width: 7"][style*="1%"],
+.jira-progress-bar[style*="width:7"][style*="1%"],
+.jira-progress-bar[data-progress="71"],
+.jira-progress-bar[style*="width: 7"][style*="2%"],
+.jira-progress-bar[style*="width:7"][style*="2%"],
+.jira-progress-bar[data-progress="72"],
+.jira-progress-bar[style*="width: 7"][style*="3%"],
+.jira-progress-bar[style*="width:7"][style*="3%"],
+.jira-progress-bar[data-progress="73"],
+.jira-progress-bar[style*="width: 7"][style*="4%"],
+.jira-progress-bar[style*="width:7"][style*="4%"],
+.jira-progress-bar[data-progress="74"] {
+  background: linear-gradient(90deg, #ffc107, #0d6efd) !important;
+}
+
+.jira-progress-bar[style*="width: 75%"],
+.jira-progress-bar[style*="width:75%"],
+.jira-progress-bar[data-progress="75"],
+.jira-progress-bar[style*="width: 7"][style*="6%"],
+.jira-progress-bar[style*="width:7"][style*="6%"],
+.jira-progress-bar[data-progress="76"],
+.jira-progress-bar[style*="width: 7"][style*="7%"],
+.jira-progress-bar[style*="width:7"][style*="7%"],
+.jira-progress-bar[data-progress="77"],
+.jira-progress-bar[style*="width: 7"][style*="8%"],
+.jira-progress-bar[style*="width:7"][style*="8%"],
+.jira-progress-bar[data-progress="78"],
+.jira-progress-bar[style*="width: 7"][style*="9%"],
+.jira-progress-bar[style*="width:7"][style*="9%"],
+.jira-progress-bar[data-progress="79"],
+.jira-progress-bar[style*="width: 80%"],
+.jira-progress-bar[style*="width:80%"],
+.jira-progress-bar[data-progress="80"],
+.jira-progress-bar[style*="width: 8"][style*="1%"],
+.jira-progress-bar[style*="width:8"][style*="1%"],
+.jira-progress-bar[data-progress="81"],
+.jira-progress-bar[style*="width: 8"][style*="2%"],
+.jira-progress-bar[style*="width:8"][style*="2%"],
+.jira-progress-bar[data-progress="82"],
+.jira-progress-bar[style*="width: 8"][style*="3%"],
+.jira-progress-bar[style*="width:8"][style*="3%"],
+.jira-progress-bar[data-progress="83"],
+.jira-progress-bar[style*="width: 8"][style*="4%"],
+.jira-progress-bar[style*="width:8"][style*="4%"],
+.jira-progress-bar[data-progress="84"],
+.jira-progress-bar[style*="width: 8"][style*="5%"],
+.jira-progress-bar[style*="width:8"][style*="5%"],
+.jira-progress-bar[data-progress="85"],
+.jira-progress-bar[style*="width: 8"][style*="6%"],
+.jira-progress-bar[style*="width:8"][style*="6%"],
+.jira-progress-bar[data-progress="86"],
+.jira-progress-bar[style*="width: 8"][style*="7%"],
+.jira-progress-bar[style*="width:8"][style*="7%"],
+.jira-progress-bar[data-progress="87"],
+.jira-progress-bar[style*="width: 8"][style*="8%"],
+.jira-progress-bar[style*="width:8"][style*="8%"],
+.jira-progress-bar[data-progress="88"],
+.jira-progress-bar[style*="width: 8"][style*="9%"],
+.jira-progress-bar[style*="width:8"][style*="9%"],
+.jira-progress-bar[data-progress="89"],
+.jira-progress-bar[style*="width: 90%"],
+.jira-progress-bar[style*="width:90%"],
+.jira-progress-bar[data-progress="90"],
+.jira-progress-bar[style*="width: 9"][style*="1%"],
+.jira-progress-bar[style*="width:9"][style*="1%"],
+.jira-progress-bar[data-progress="91"],
+.jira-progress-bar[style*="width: 9"][style*="2%"],
+.jira-progress-bar[style*="width:9"][style*="2%"],
+.jira-progress-bar[data-progress="92"],
+.jira-progress-bar[style*="width: 9"][style*="3%"],
+.jira-progress-bar[style*="width:9"][style*="3%"],
+.jira-progress-bar[data-progress="93"],
+.jira-progress-bar[style*="width: 9"][style*="4%"],
+.jira-progress-bar[style*="width:9"][style*="4%"],
+.jira-progress-bar[data-progress="94"],
+.jira-progress-bar[style*="width: 9"][style*="5%"],
+.jira-progress-bar[style*="width:9"][style*="5%"],
+.jira-progress-bar[data-progress="95"],
+.jira-progress-bar[style*="width: 9"][style*="6%"],
+.jira-progress-bar[style*="width:9"][style*="6%"],
+.jira-progress-bar[data-progress="96"],
+.jira-progress-bar[style*="width: 9"][style*="7%"],
+.jira-progress-bar[style*="width:9"][style*="7%"],
+.jira-progress-bar[data-progress="97"],
+.jira-progress-bar[style*="width: 9"][style*="8%"],
+.jira-progress-bar[style*="width:9"][style*="8%"],
+.jira-progress-bar[data-progress="98"],
+.jira-progress-bar[style*="width: 9"][style*="9%"],
+.jira-progress-bar[style*="width:9"][style*="9%"],
+.jira-progress-bar[data-progress="99"] {
+  background: linear-gradient(90deg, #0d6efd, #198754) !important;
+}
+
+.jira-progress-bar[style*="width: 100%"],
+.jira-progress-bar[style*="width:100%"],
+.jira-progress-bar[data-progress="100"] {
+  background: linear-gradient(90deg, #198754, #4caf50) !important;
+}
+
+/* At 100%, remove the animation to signal that loading is complete */
+.jira-progress-bar[style*="width: 100%"]~.jira-progress-bar-container,
+.jira-progress-bar[style*="width:100%"]~.jira-progress-bar-container,
+.jira-progress-bar[data-progress="100"]~.jira-progress-bar-container {
+  animation: none !important;
+  background-image: none !important;
+  background-color: #e0ecff !important;
+}
+
+/* Completion indicator when at 100% */
+.progress-message[data-complete="true"]::after {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2322c55e' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+  background-size: contain;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .progress-container {
+    padding: 0.75rem 0.75rem 0;
+  }
+
+  .progress-message {
+    font-size: 0.65rem !important;
+  }
+
+  .jira-progress-bar-container {
+    height: 0.4rem !important;
+  }
+}

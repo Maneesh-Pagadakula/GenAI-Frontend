@@ -1,0 +1,25 @@
+@media (max-width: 576px) {
+    .progress-bar {
+        padding: 0.75rem 0.75rem 0;
+    }
+
+    .progress-bar .d-flex.just-space span {
+        font-size: 12px;
+    }
+
+    .progress {
+        --bs-progress-height: 0.4rem !important;
+    }
+
+    .progress-container {
+        padding: 0.75rem 0.75rem 0;
+    }
+
+    .progress-message {
+        font-size: 0.65rem !important;
+    }
+
+    .jira-progress-bar-container {
+        height: 0.4rem !important;
+    }
+}

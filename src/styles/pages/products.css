@@ -1,0 +1,38 @@
+.product-list {
+    padding: 1rem 1rem;
+}
+
+.product-list-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.product-title-header {
+    padding: 0 1.1rem;
+    justify-content: right;
+    flex-direction: row-reverse;
+}
+
+.product-list-main-title {
+    color: #1c1c1c;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 1rem;
+}
+
+.products-lists {
+    padding-left: 1rem;
+}
+
+.product-list-controlls {
+    padding-left: 0;
+    margin-bottom: 0;
+    display: flex;
+    list-style: none;
+}
+
+.product-list-controlls li {
+    margin: 0 0.5rem;
+    cursor: pointer;
+    align-self: center;
+}

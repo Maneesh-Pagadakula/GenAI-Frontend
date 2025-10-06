@@ -1,0 +1,34 @@
+/* Add to your CSS */
+.leftnav.collapsed {
+    width: 60px;
+    transition: width 0.6s ease;
+  }
+  
+  .leftnav {
+    width: 250px; /* Or whatever your original width is */
+    transition: width 0.6s ease;
+  }
+  
+  .sidebar-toggle {
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .sidebar-collapsed .nav-pad,
+  .sidebar-collapsed .leftnav-scroll {
+    display: none;
+  }
+  
+  /* Adjust the main content area when sidebar is collapsed */
+  .leftnav.collapsed + .play-screen {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+    transition: margin-left 0.6s ease, width 0.6s ease;
+  }
+  
+  .play-screen {
+    margin-left: 250px; /* Should match your leftnav width */
+    width: calc(100% - 250px);
+    transition: margin-left 0.6s ease, width 0.6s ease;
+  }

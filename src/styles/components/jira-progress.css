@@ -1,0 +1,50 @@
+.progress-container {
+    position: relative;
+}
+
+.progress-message {
+    font-weight: bold !important;
+    display: block !important;
+    font-size: 0.7rem !important;
+    color: #646464;
+    margin-bottom: 0.5rem;
+}
+
+.jira-progress-bar-container {
+    position: relative;
+    height: 0.5rem;
+    background-color: #e0ecff !important;
+    border-radius: 1rem !important;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    margin-top: 5px;
+    background-image: linear-gradient(-45deg, #d0e1ff 25%, #e0ecff 25%, #e0ecff 50%, #d0e1ff 50%, #d0e1ff 75%, #e0ecff 75%, #e0ecff) !important;
+    background-size: 40px 40px !important;
+    animation: progress-background-animation 2s linear infinite !important;
+}
+
+.jira-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #0c53b7, #2979ff) !important;
+    position: relative;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px rgba(12, 83, 183, 0.5);
+    transition: width 0.3s linear;
+    z-index: 2;
+    width: var(--progress-width, 0%) !important;
+}
+
+.jira-progress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+    animation: shine 2s infinite;
+}
+
+/* Jira progress color states (similar to main progress but with jira- prefix) */
+/* ... (include all the jira-progress-bar color states) ... */

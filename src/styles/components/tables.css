@@ -1,0 +1,42 @@
+.employeesearchtbl {
+    border: 1px solid #dee2e6;
+    border-radius: 9px;
+}
+
+.emplyee-search-tbl th {
+    color: #6c757d !important;
+    font-weight: 600;
+    border-radius: 9px;
+}
+
+.project-title-in-tbl {
+    text-decoration: underline;
+}
+
+.tbl-title {
+    color: #1a2942;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.emplyee-search-tbl {
+    margin-bottom: 0 !important;
+}
+
+.emplyee-search-tbl tr:last-child td {
+    border: none;
+    background: transparent;
+}
+
+.srch-empl-cont-label {
+    font-weight: 500;
+    color: #6c757d;
+    margin-bottom: 2px;
+    font-size: 13px;
+}
+
+.srch-empl-cont-data {
+    color: #434345;
+    font-size: 14px;
+    margin-bottom: 1rem;
+}

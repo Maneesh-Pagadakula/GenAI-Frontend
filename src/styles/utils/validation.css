@@ -1,0 +1,27 @@
+.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.validation-fields {
+    border-color: red !important;
+}
+
+.required {
+    color: red;
+    font-size: 14px;
+}
+
+.required-mark {
+    color: red;
+    margin-left: 2px;
+}
+
+.error-message {
+    font-size: 12px;
+    color: #ff4d4d;
+    margin-top: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

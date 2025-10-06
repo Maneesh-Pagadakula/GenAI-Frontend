@@ -1,0 +1,17 @@
+.btn-primary {
+    background-color: #0c53b7 !important;
+    border-color: #0c53b7 !important;
+}
+
+.btn-secondary {
+    background-color: transparent !important;
+    border-color: #eeedf0 !important;
+    color: #1c1c1c !important;
+}
+
+.download-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}

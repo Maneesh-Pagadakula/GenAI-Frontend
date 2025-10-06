@@ -1,0 +1,181 @@
+.landing-empty-header {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.empty-screen img {
+    height: 100px;
+}
+
+/* ===================== QA Accelerator — New UI changes ===================== */
+.page-container{
+  height: 85%;
+}
+
+.page-container-header-text{
+flex: 3 1 0;
+}
+
+.card-container{
+    flex: 5 1 0;
+}
+.card-text{
+    color: #7F7B7B;
+    ;
+}
+
+:root{
+    /* tune to your Figma */
+    --card-w: 378px;
+    --col-gap: 48px;
+    --card-gap: 24px;
+    --title-lane: 10px;
+  
+    --title-color: #fff;
+    --heading-color: #0B132B;
+    --body-color: #59657A;
+    --icon-bg: #F1E6FF;
+  
+    --card-radius: 24px;
+    --card-pad: 24px;
+    --shadow: 0 10px 25px rgba(0,0,0,.08);
+  }
+  
+  /* ======== Outer grid: 1–2–1 by exact widths ======== */
+  .featureGrid{
+    display: grid;
+    grid-template-columns: var(--card-w)
+    calc(2 * var(--card-w) + var(--card-gap));
+    column-gap: var(--col-gap);
+    align-items: start;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Columns */
+  .featureCol{
+    position: relative;
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    min-width: 0;
+    z-index: 0;
+  }
+  
+  /* Titles aligned to card edges */
+  .featureTitle{
+    width: var(--card-w);
+    color: var(--title-color);
+    font-size: 20px;
+    text-align: left;
+  }
+  
+  .featureCol[data-wide="true"] .featureTitle{
+    width: calc(2 * var(--card-w) + var(--card-gap));
+  }
+  
+  /* ======== Equal-height dashed separators (from middle column) ======== */
+  /* Keep any existing old separator turned off on non-wide columns */
+  .featureCol[data-has-sep="true"]:not([data-wide="true"])::after{ display: none !important; }
+  
+  .featureCol[data-wide="true"]::before{
+  /* .featureCol[data-wide="true"]::after{ */
+    content: "";
+    position: absolute;
+    top: calc(var(--title-lane));
+    bottom: 0;
+    border-right: 2px dashed rgba(255,255,255,.85);
+    z-index: 0;                           /* behind cards */
+    pointer-events: none;
+  }
+  .featureCol[data-wide="true"]::before{ left: calc(var(--col-gap) / -2); }   /* left divider */
+  /* .featureCol[data-wide="true"]::after{  right: calc(var(--col-gap) / -2); }   */  /* right divider */
+  
+  /* ======== Card stacks ======== */
+  .cards{
+    display: grid;
+    gap: var(--card-gap);
+    grid-auto-rows: 1fr;                  /* equal heights per row */
+    width: 100%;
+    min-width: 0;
+    z-index: 1;                           /* above dashed lines */
+  }
+  
+  /* middle column: strict 2×2 */
+  .cards.twoUp{
+    grid-template-columns: repeat(2, var(--card-w));
+    justify-content: center;
+    align-items: start;
+  }
+  
+  /* ======== Card ======== */
+  /* Default = ICON ON TOP (your request) */
+  .card-styles{
+    width: var(--card-w);
+    padding: var(--card-pad);
+    background: #fff;
+    border: 0;
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+    text-align: left;
+    min-width: 0;
+    min-height: 184px;
+    position: relative;
+  
+    display: grid;
+    grid-template-columns: 1fr auto;   /* content | arrow */
+    grid-template-rows: auto 1fr;      /* icon | text */
+    column-gap: 16px;
+    row-gap: 12px;
+  }
+  
+  /* .iconWrap{
+    grid-column: 1; grid-row: 1;
+    width: 56px; height: 56px; border-radius: 14px;
+    display: grid; place-items: center;
+    background: var(--icon-bg);
+  } */
+  .cardText{
+    grid-column: 1; grid-row: 2;
+    display: grid; gap: 6px; min-width: 0;
+  }
+  .arrow{
+    grid-column: 2; grid-row: 1 / span 2;
+    align-self: end;
+    height: 15px;
+    font-size: 20px; opacity: .6;
+    transition: transform .15s ease;
+  }
+  .card:hover .arrow{ transform: translateX(3px); }
+  
+  .cardHeading{ font-weight: 400; font-size: 18px; color: var(--heading-color); }
+  .cardBody{ font-size: 14px; color: var(--body-color); line-height: 1.45; }
+  
+  /* Variant: ICON LEFT (apply .icon-left on a card to switch) */
+  .card.icon-left{
+    grid-template-columns: auto 1fr auto;   /* icon | text | arrow */
+    grid-template-rows: 1fr;                /* single row */
+    row-gap: 0;
+  }
+  /* .card.icon-left .iconWrap{ grid-column: 1; grid-row: 1; } */
+  .card.icon-left .cardText{  grid-column: 2; grid-row: 1; }
+  .card.icon-left .arrow{     grid-column: 3; grid-row: 1; align-self: center; }
+  
+  /* ======== Responsive ======== */
+  @media (max-width: 1200px){
+    .featureGrid{ grid-template-columns: 1fr; }
+    .featureCol[data-wide="true"]::before,
+    .featureCol[data-wide="true"]::after{ display: none; }    /* hide lines when wrapping */
+    .featureTitle{ width: 100%; }
+    .featureCol[data-wide="true"] .featureTitle{ width: 100%; }
+    .card-styles.twoUp{ grid-template-columns: 1fr 1fr; }
+    .card-styles{ width: 100%; }
+  }
+  @media (max-width: 720px){
+    .featureGrid{ grid-template-columns: 1fr; row-gap: 24px; }
+    .card-styles.twoUp{ grid-template-columns: 1fr; }
+    .cards.twoUp{
+      grid-template-columns: repeat(1, var(--card-w));
+    }
+  }
+  

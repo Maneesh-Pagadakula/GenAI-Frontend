@@ -1,0 +1,142 @@
+/* Font Sizes */
+.font-14 {
+    font-size: 14px;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.font-18 {
+    font-size: 18px;
+}
+
+/* Text Content */
+.content-text,
+p {
+    color: #646464;
+    font-size: 14px;
+}
+
+.muted-text {
+    color: #646464;
+}
+
+/* Labels & Form Text */
+label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 14px;
+}
+
+/* Links */
+a,
+.cred-link {
+    color: #0c53b7 !important;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+}
+
+/* Headings & Titles */
+.landing-empty-header {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.product-list-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.product-list-main-title {
+    color: #1c1c1c;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 1rem;
+}
+
+.tbl-title {
+    color: #1a2942;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.create-new-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0;
+}
+
+.cust-modal-title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    margin: 0;
+}
+
+/* Specialized Text */
+.day {
+    color: #92929d;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.login-banner-desc {
+    color: #ffffff;
+    margin-top: 1rem;
+}
+
+.select-file-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0.3rem 0;
+}
+
+.drag-file {
+    font-size: 12px;
+}
+
+.upload-url-txt {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0.9rem 0;
+}
+
+.upload-txt {
+    position: absolute;
+    right: 0.8rem;
+    top: 0.57rem;
+    color: #0c53b7;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.ip-field-font-size {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.srch-empl-cont-label {
+    font-weight: 500;
+    color: #6c757d;
+    margin-bottom: 2px;
+    font-size: 13px;
+}
+
+.srch-empl-cont-data {
+    color: #434345;
+    font-size: 14px;
+    margin-bottom: 1rem;
+}
+
+.progress-message {
+    font-weight: bold !important;
+    display: block !important;
+    font-size: 0.7rem !important;
+    color: #646464;
+    margin-bottom: 0.5rem;
+}
