@@ -1,0 +1,91 @@
+.main-body {
+  display: flex;
+  background-color: #ffffff;
+  min-height: 100vh;
+  flex-direction: row;
+}
+
+.leftnav {
+  width: 300px;
+  background-color: #ffffff;
+  border-right: 1px solid #eeedf0;
+  flex-shrink: 0;
+}
+
+.play-screen {
+  width: 100%;
+  z-index: 0;
+  flex: 1;
+  min-width: 0; /* Prevent flex item from overflowing */
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .leftnav {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-body {
+    flex-direction: column;
+  }
+
+  .leftnav {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #eeedf0;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .play-screen {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .leftnav {
+    max-height: 40vh;
+  }
+}
+
+.logo {
+  padding: 0;
+}
+
+.main-header {
+  padding: 0.59rem 1rem;
+  border-bottom: 1px solid #eeedf0;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.just-space {
+  justify-content: right;
+}
+
+.just-space-btwn {
+  justify-content: space-between;
+  align-items: center;
+}
+.jira-upload{
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  border-radius: 8px;
+}
+
+.jira-upload:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+}

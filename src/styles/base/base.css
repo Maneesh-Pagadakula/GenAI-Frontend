@@ -1,0 +1,62 @@
+body {
+    font-family: "inter", sans-serif !important;
+}
+
+.pos-rel {
+    position: relative;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 14px;
+}
+
+button {
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+a,
+.cred-link {
+    color: #0c53b7 !important;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+}
+
+.font-14 {
+    font-size: 14px;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.font-18 {
+    font-size: 18px;
+}
+
+.content-text,
+p {
+    color: #646464;
+    font-size: 14px;
+}
+
+.muted-text {
+    color: #646464;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.divcontents {
+    display: contents;
+}
+
+.vert-align-img {
+    margin-bottom: 2px;
+}

@@ -1,0 +1,87 @@
+.cust-modal {
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    display: block !important;
+}
+
+.fileupload .cust-modal-body {
+    border: 1px dashed #6984a9;
+}
+
+.fileupload .btn-close {
+    font-size: 10px !important;
+    box-shadow: none !important;
+    align-self: end;
+}
+
+.fileupload .cust-modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    margin: 0;
+    width: 50%;
+    width: 500px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.popup-backdrop {
+    background-color: #0000005e;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Knowledge Base Upload modal tweaks */
+.kb-upload-modal .cust-modal-dialog {
+    max-height: 80vh;
+    overflow: auto;
+    width: 500px;
+}
+
+.kb-upload-modal .cust-modal-content {
+    padding: 1rem;
+}
+
+.kb-upload-modal .upload-container {
+    padding: 10px;
+}
+
+.kb-upload-modal .select-file-icon {
+    width: 28px;
+    height: 28px;
+}
+
+@media (max-width: 576px) {
+    .kb-upload-modal .cust-modal-dialog {
+        width: 90%;
+        max-height: 75vh;
+    }
+}
+
+.cust-modal-header {
+    border-bottom: none !important;
+    padding: 0 !important;
+    margin-bottom: 1.6rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cust-modal-title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    margin: 0;
+}
+
+.cust-modal-content {
+    padding: 1.1rem 1.6rem;
+}

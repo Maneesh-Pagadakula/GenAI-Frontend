@@ -1,0 +1,481 @@
+/* Full Screen Spinner Overlay */
+.fullscreen-spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.fullscreen-spinner-container {
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: fadeInScale 0.3s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Hourglass Spinner Animation */
+.spinner-animation {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+}
+
+.hourglass-spinner {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  margin: 10px auto;
+}
+
+.hourglass-top,
+.hourglass-bottom {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  border: 3px solid #007bff;
+  border-radius: 50px 50px 0 0;
+  background: linear-gradient(to bottom, #007bff 0%, transparent 50%);
+  animation: hourglassFlow 2s ease-in-out infinite;
+}
+
+.hourglass-bottom {
+  top: 30px;
+  border-radius: 0 0 50px 50px;
+  background: linear-gradient(to top, #007bff 0%, transparent 50%);
+  animation: hourglassFlow 2s ease-in-out infinite reverse;
+}
+
+.hourglass-spinner::before {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  width: 8px;
+  height: 8px;
+  background: #007bff;
+  border-radius: 50%;
+  animation: sandFall 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes hourglassFlow {
+  0%,
+  100% {
+    background: linear-gradient(to bottom, #007bff 0%, transparent 50%);
+  }
+  50% {
+    background: linear-gradient(to bottom, transparent 0%, #007bff 100%);
+  }
+}
+
+@keyframes sandFall {
+  0%,
+  100% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 0.5;
+  }
+}
+
+/* Content Styling */
+.spinner-content {
+  color: #333;
+}
+
+.spinner-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.spinner-subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+}
+
+.spinner-message {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+/* Progress Bar */
+.progress-container {
+  margin-top: 1rem;
+  position: relative;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #007bff, #28a745);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.progress-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .fullscreen-spinner-container {
+    padding: 2rem 1.5rem;
+    max-width: 350px;
+  }
+
+  .spinner-title {
+    font-size: 1.25rem;
+  }
+
+  .spinner-message {
+    font-size: 0.9rem;
+  }
+
+  .spinner-animation {
+    width: 60px;
+    height: 60px;
+  }
+
+  .hourglass-spinner {
+    width: 45px;
+    height: 45px;
+  }
+
+  .hourglass-top,
+  .hourglass-bottom {
+    width: 45px;
+    height: 22.5px;
+  }
+
+  .hourglass-bottom {
+    top: 22.5px;
+  }
+
+  .hourglass-spinner::before {
+    top: 21px;
+    left: 21px;
+    width: 6px;
+    height: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fullscreen-spinner-container {
+    padding: 1.5rem 1rem;
+    max-width: 300px;
+  }
+
+  .spinner-title {
+    font-size: 1.1rem;
+  }
+
+  .spinner-message {
+    font-size: 0.85rem;
+  }
+
+  .spinner-animation {
+    width: 50px;
+    height: 50px;
+  }
+
+  .hourglass-spinner {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hourglass-top,
+  .hourglass-bottom {
+    width: 40px;
+    height: 20px;
+  }
+
+  .hourglass-bottom {
+    top: 20px;
+  }
+
+  .hourglass-spinner::before {
+    top: 18px;
+    left: 18px;
+    width: 5px;
+    height: 5px;
+  }
+}
+
+/* Jira progress bar container - the background with enhanced blue loading animation */
+.progress-bar-container {
+    position: relative;
+    height: 0.5rem;
+    background-color: #e0ecff !important;
+    /* Blue base color */
+    border-radius: 1rem !important;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    margin-top: 5px;
+
+    /* Add loading animation in the background with enhanced blue colors */
+    background-image: linear-gradient(-45deg,
+            #d0e1ff 25%,
+            /* More saturated blue */
+            #e0ecff 25%,
+            #e0ecff 50%,
+            #d0e1ff 50%,
+            #d0e1ff 75%,
+            #e0ecff 75%,
+            #e0ecff) !important;
+    background-size: 40px 40px !important;
+    animation: progress-background-animation 2s linear infinite !important;
+}
+
+/* Animation for the striped background */
+@keyframes progress-background-animation {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 40px 0;
+    }
+}
+
+.jprogress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #0c53b7, #2979ff) !important;
+    position: relative;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px rgba(12, 83, 183, 0.5);
+    transition: width 0.3s linear;
+    z-index: 2;
+    /* Ensure the filled part is above the animated background */
+    width: var(--progress-width, 0%) !important;
+    /* Use the custom property with fallback */
+}
+
+/* Shine effect animation for the filled part */
+.jprogress-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    to {
+        left: 100%;
+    }
+}
+
+/* Progress color states based on percentage */
+/* 0-24% - Red */
+.jprogress-bar[data-progress="0"],
+.jprogress-bar[data-progress="1"],
+.jprogress-bar[data-progress="2"],
+.jprogress-bar[data-progress="3"],
+.jprogress-bar[data-progress="4"],
+.jprogress-bar[data-progress="5"],
+.jprogress-bar[data-progress="6"],
+.jprogress-bar[data-progress="7"],
+.jprogress-bar[data-progress="8"],
+.jprogress-bar[data-progress="9"],
+.jprogress-bar[data-progress="10"],
+.jprogress-bar[data-progress="11"],
+.jprogress-bar[data-progress="12"],
+.jprogress-bar[data-progress="13"],
+.jprogress-bar[data-progress="14"],
+.jprogress-bar[data-progress="15"],
+.jprogress-bar[data-progress="16"],
+.jprogress-bar[data-progress="17"],
+.jprogress-bar[data-progress="18"],
+.jprogress-bar[data-progress="19"],
+.jprogress-bar[data-progress="20"],
+.jprogress-bar[data-progress="21"],
+.jprogress-bar[data-progress="22"],
+.jprogress-bar[data-progress="23"],
+.jprogress-bar[data-progress="24"] {
+    background: linear-gradient(90deg, #dc3545, #ef5350) !important;
+}
+
+/* 25-49% - Orange */
+.jprogress-bar[data-progress="25"],
+.jprogress-bar[data-progress="26"],
+.jprogress-bar[data-progress="27"],
+.jprogress-bar[data-progress="28"],
+.jprogress-bar[data-progress="29"],
+.jprogress-bar[data-progress="30"],
+.jprogress-bar[data-progress="31"],
+.jprogress-bar[data-progress="32"],
+.jprogress-bar[data-progress="33"],
+.jprogress-bar[data-progress="34"],
+.jprogress-bar[data-progress="35"],
+.jprogress-bar[data-progress="36"],
+.jprogress-bar[data-progress="37"],
+.jprogress-bar[data-progress="38"],
+.jprogress-bar[data-progress="39"],
+.jprogress-bar[data-progress="40"],
+.jprogress-bar[data-progress="41"],
+.jprogress-bar[data-progress="42"],
+.jprogress-bar[data-progress="43"],
+.jprogress-bar[data-progress="44"],
+.jprogress-bar[data-progress="45"],
+.jprogress-bar[data-progress="46"],
+.jprogress-bar[data-progress="47"],
+.jprogress-bar[data-progress="48"],
+.jprogress-bar[data-progress="49"] {
+    background: linear-gradient(90deg, #fd7e14, #ff9800) !important;
+}
+
+/* 50-74% - Yellow to Blue */
+.jprogress-bar[data-progress="50"],
+.jprogress-bar[data-progress="51"],
+.jprogress-bar[data-progress="52"],
+.jprogress-bar[data-progress="53"],
+.jprogress-bar[data-progress="54"],
+.jprogress-bar[data-progress="55"],
+.jprogress-bar[data-progress="56"],
+.jprogress-bar[data-progress="57"],
+.jprogress-bar[data-progress="58"],
+.jprogress-bar[data-progress="59"],
+.jprogress-bar[data-progress="60"],
+.jprogress-bar[data-progress="61"],
+.jprogress-bar[data-progress="62"],
+.jprogress-bar[data-progress="63"],
+.jprogress-bar[data-progress="64"],
+.jprogress-bar[data-progress="65"],
+.jprogress-bar[data-progress="66"],
+.jprogress-bar[data-progress="67"],
+.jprogress-bar[data-progress="68"],
+.jprogress-bar[data-progress="69"],
+.jprogress-bar[data-progress="70"],
+.jprogress-bar[data-progress="71"],
+.jprogress-bar[data-progress="72"],
+.jprogress-bar[data-progress="73"],
+.jprogress-bar[data-progress="74"] {
+    background: linear-gradient(90deg, #ffc107, #0d6efd) !important;
+}
+
+/* 75-99% - Blue to Green */
+.jprogress-bar[data-progress="75"],
+.jprogress-bar[data-progress="76"],
+.jprogress-bar[data-progress="77"],
+.jprogress-bar[data-progress="78"],
+.jprogress-bar[data-progress="79"],
+.jprogress-bar[data-progress="80"],
+.jprogress-bar[data-progress="81"],
+.jprogress-bar[data-progress="82"],
+.jprogress-bar[data-progress="83"],
+.jprogress-bar[data-progress="84"],
+.jprogress-bar[data-progress="85"],
+.jprogress-bar[data-progress="86"],
+.jprogress-bar[data-progress="87"],
+.jprogress-bar[data-progress="88"],
+.jprogress-bar[data-progress="89"],
+.jprogress-bar[data-progress="90"],
+.jprogress-bar[data-progress="91"],
+.jprogress-bar[data-progress="92"],
+.jprogress-bar[data-progress="93"],
+.jprogress-bar[data-progress="94"],
+.jprogress-bar[data-progress="95"],
+.jprogress-bar[data-progress="96"],
+.jprogress-bar[data-progress="97"],
+.jprogress-bar[data-progress="98"],
+.jprogress-bar[data-progress="99"] {
+    background: linear-gradient(90deg, #0d6efd, #198754) !important;
+}
+
+/* 100% - Green */
+.jprogress-bar[data-progress="100"] {
+    background: linear-gradient(90deg, #198754, #4caf50) !important;
+}
+
+/* At 100%, remove the animation to signal that loading is complete */
+.jprogress-bar[data-progress="100"]~.progress-bar-container,
+.progress-container[data-complete="true"] .progress-bar-container {
+    animation: none !important;
+    background-image: none !important;
+    background-color: #e0ecff !important;
+}
+
+/* Completion indicator when at 100% */
+.progress-message[data-complete="true"]::after {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2322c55e' viewBox='0 0 16 16'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+    background-size: contain;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .progress-container {
+        padding: 0.75rem 0.75rem 0;
+    }
+
+    .progress-message {
+        font-size: 0.65rem !important;
+    }
+
+    .progress-bar-container {
+        height: 0.4rem !important;
+    }
+}

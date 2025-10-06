@@ -1,0 +1,67 @@
+.select-file-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0.3rem 0;
+}
+
+.drag-file {
+    font-size: 12px;
+}
+
+.select-file-con {
+    margin: auto;
+    text-align: center;
+    cursor: all-scroll;
+    padding: 1.7rem 1rem 0.9rem 1rem;
+}
+
+.select-file-icon {
+    height: 45px;
+}
+
+.upload-url-txt {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0.9rem 0;
+}
+
+.upload-url {
+    margin: 0.9rem 0 0.7rem;
+}
+
+.upload-txt {
+    position: absolute;
+    right: 0.8rem;
+    top: 0.57rem;
+    color: #0c53b7;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.docu-details{
+    font-size: 1.25rem;
+    padding: 0.75rem 1rem;
+    resize: vertical;
+    white-space: pre-wrap;
+    height: auto;
+}
+
+.uploaded-file-display {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.uploaded-file-icon {
+  height: 20px;
+}
+
+.uploaded-file-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  word-break: break-all;
+}

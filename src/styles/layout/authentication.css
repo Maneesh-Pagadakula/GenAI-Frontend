@@ -1,0 +1,67 @@
+.login-left-banner-img {
+    width: 100%;
+    background: #1b154c;
+    height: 100vh;
+}
+
+.login-banner-content {
+    position: absolute;
+    bottom: 0;
+    left: 7%;
+    transform: translate(0, -50%);
+    color: #fff;
+    width: 80%;
+}
+
+.login-banner-desc {
+    color: #ffffff;
+    margin-top: 1rem;
+}
+
+.login-logo {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+.login-logo img {
+    height: 35px;
+}
+
+.login-card {
+    height: 100vh !important;
+}
+
+.login-form {
+    margin: auto;
+    width: 80%;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 0.7rem;
+    top: 45px;
+    cursor: pointer;
+}
+
+.eye-icon-without-label {
+    top: 5px !important;
+}
+
+.eye-icon::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: #b6b6b6;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    opacity: 0;
+}
+
+.eye-icon-slash::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+    opacity: 1;
+}

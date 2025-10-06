@@ -1,0 +1,36 @@
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control,
+.form-select {
+    font-size: 14px;
+    padding: 0.7rem 0.5rem;
+}
+
+.form-control,
+.form-check-input,
+.form-select {
+    box-shadow: none !important;
+}
+
+.form-check-input:checked {
+    background-color: #0c53b7 !important;
+    border-color: #0c53b7 !important;
+}
+
+.ip-field-font-size {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.multi-select-dd-pop {
+    width: 400px !important;
+}
+
+.multi-select-dd-pop .form-select {
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    padding-right: 1.9rem !important;
+}
