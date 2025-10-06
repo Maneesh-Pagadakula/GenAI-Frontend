@@ -41,6 +41,9 @@ import CoverageDisplay from "../../components/CoverageDisplay";
 import CoverageWarningModal from "../../components/CoverageWarningModal";
 import RequirementsList from "../../components/RequirementsList";
 import JiraAnalysisDropdown from "./jira-analysis-dropdown";
+import ListCards from "./ListCards";
+
+function LandingPage(props) {
 
 function LandingPage(props) {
   // NEW: automation/toggle state
@@ -192,6 +195,7 @@ ${rawCode}
   const [testCaseFilter, setTestCaseFilter] = useState("all");
 
   // Use the external state if it exists, otherwise fall back to local state
+  const showJiraPopup = externalJiraPopup !== undefined ? externalJiraPopup : localJiraPopup;
   const showJiraPopup =
     externalJiraPopup !== undefined ? externalJiraPopup : localJiraPopup;
   const setShowJiraPopup = externalSetJiraPopup || setLocalJiraPopup;
@@ -224,6 +228,9 @@ ${rawCode}
   const [analysisContent, setAnalysisContent] = useState("");
 
   const backend_baseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+
+  const handleJiraAnalysisSuccess = (analysis) => {
+    setResponseData({ status: 200, data: { message: analysis, title: "Test Case Analysis" } });
   // NEW: controls whether Jira popup is in "test-cases" or "feature (Gherkin)" mode
   const [jiraCreateMode, setJiraCreateMode] = useState("test-cases");
 
@@ -266,6 +273,7 @@ ${rawCode}
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
+        a.download = format === "pdf" ? "Test_Case_Analysis.pdf" : "Test_Case_Analysis.xlsx";
         a.download =
           format === "pdf"
             ? "Test_Case_Analysis.pdf"
@@ -343,6 +351,14 @@ ${rawCode}
   const [coverageWarningData, setCoverageWarningData] = useState(null);
   const [pendingRefinementPrompt, setPendingRefinementPrompt] = useState(null);
 
+  const [submit, setSubmit] = useState(false);
+
+  useEffect(() => {
+    if (submit) {
+      handleFileUpload();
+      setSubmit(false);
+    }
+  }, [submit]);
   // Show Jira Upload only when current/returned type is Manual
   const isManual = (jiraTestCaseType || testCaseType) === "Manual Test Cases";
 
@@ -494,10 +510,7 @@ ${rawCode}
                 // Update coverage data if available
                 if (jsonData.coverage) {
                   // If this was a regeneration for missed requirements, merge with original coverage
-                  if (
-                    window.isRegeneratingMissed &&
-                    window.originalCoverageData
-                  ) {
+                  if (window.isRegeneratingMissed && window.originalCoverageData) {
                     const originalCoverage = window.originalCoverageData;
                     const newCoverage = jsonData.coverage;
 
@@ -529,18 +542,14 @@ ${rawCode}
                     });
 
                     const mergedAnalysis = Array.from(requirementMap.values());
-                    const coveredCount = mergedAnalysis.filter(
-                      (req) => req.covered
-                    ).length;
+                    const coveredCount = mergedAnalysis.filter((req) => req.covered).length;
 
                     const mergedCoverage = {
                       ...newCoverage,
                       detailed_analysis: mergedAnalysis,
                       total_requirements: mergedAnalysis.length,
                       covered_requirements: coveredCount,
-                      coverage_percentage: Math.round(
-                        (coveredCount / mergedAnalysis.length) * 100
-                      ),
+                      coverage_percentage: Math.round((coveredCount / mergedAnalysis.length) * 100),
                     };
 
                     setCoverageData(mergedCoverage);
@@ -554,13 +563,10 @@ ${rawCode}
                 }
 
                 if (intent === "ADDITION") {
-                  console.log(
-                    "Processing ADDITION intent - appending new test cases"
-                  );
+                  console.log("Processing ADDITION intent - appending new test cases");
                   // Append new test cases to existing ones
                   const currentContent = responseData?.data?.message || "";
-                  const combinedContent =
-                    currentContent + "\n\n" + jsonData.data;
+                  const combinedContent = currentContent + "\n\n" + jsonData.data;
                   const newResponseData = {
                     status: 200,
                     data: {
@@ -568,10 +574,7 @@ ${rawCode}
                       title: "Test Cases", // Keep original title
                     },
                   };
-                  console.log(
-                    "Setting combined responseData for addition:",
-                    newResponseData
-                  );
+                  console.log("Setting combined responseData for addition:", newResponseData);
                   setResponseData(newResponseData);
                   setCurrentDisplayData({
                     content: combinedContent,
@@ -580,15 +583,8 @@ ${rawCode}
                   });
                   setDisplayType("modified");
                   setRefinedTestCases(null); // Clear refined section
-                } else if (
-                  intent === "REDUCTION" ||
-                  intent === "OPTIMIZATION"
-                ) {
-                  console.log(
-                    "Processing",
-                    intent,
-                    "intent - updating main display"
-                  );
+                } else if (intent === "REDUCTION" || intent === "OPTIMIZATION") {
+                  console.log("Processing", intent, "intent - updating main display");
                   // Replace the original test cases display with reduced/optimized content
                   const newResponseData = {
                     status: 200,
@@ -672,11 +668,7 @@ ${rawCode}
     // Proceed with the original refinement request by modifying it to force addition
     if (pendingRefinementPrompt) {
       const forcePrompt = `${pendingRefinementPrompt} (FORCE ADD: User confirmed to add despite coverage status)`;
-      await handleRefinedTestCases(
-        forcePrompt,
-        responseData?.data?.message,
-        conversationContext
-      );
+      await handleRefinedTestCases(forcePrompt, responseData?.data?.message, conversationContext);
     }
 
     setCoverageWarningData(null);
@@ -713,10 +705,7 @@ ${rawCode}
       let endpoint;
 
       // Use different endpoint based on refinement intent
-      if (
-        refinementIntent === "IDENTIFICATION" &&
-        displayType === "identified"
-      ) {
+      if (refinementIntent === "IDENTIFICATION" && displayType === "identified") {
         endpoint =
           format === "excel"
             ? `${backend_baseURL}/download/excel/identified-test-cases?EmailId=${emailId}`
@@ -749,9 +738,7 @@ ${rawCode}
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
-      setSuccessMessage(
-        `Refined test cases downloaded as ${format.toUpperCase()} successfully!`
-      );
+      setSuccessMessage(`Refined test cases downloaded as ${format.toUpperCase()} successfully!`);
       setShowSuccessToast(true);
     } catch (error) {
       console.error(`Error downloading ${format}:`, error);
@@ -818,9 +805,7 @@ ${rawCode}
       })
         .then(async (response) => {
           if (!response.ok) {
-            throw new Error(
-              `URL processing failed: ${response.status} - ${response.statusText}`
-            );
+            throw new Error(`URL processing failed: ${response.status} - ${response.statusText}`);
           }
 
           if (!response.body) {
@@ -859,9 +844,7 @@ ${rawCode}
 
                 if (jsonData.progress === 100) {
                   let finalData =
-                    collectedData.trim() !== ""
-                      ? collectedData.trim()
-                      : jsonData.data;
+                    collectedData.trim() !== "" ? collectedData.trim() : jsonData.data;
 
                   setResponseData({
                     status: 200,
@@ -869,9 +852,7 @@ ${rawCode}
                   });
 
                   setGeneratedResults("Generated Results for Excel from URL");
-                  setSuccessMessage(
-                    "Excel URL processing has been successful!"
-                  );
+                  setSuccessMessage("Excel URL processing has been successful!");
                   setShowSuccessToast(true);
 
                   setTimeout(() => {
@@ -929,23 +910,12 @@ ${rawCode}
   };
   useEffect(() => {
     function handleClickOutside(event) {
-      if (
-        createDropdownRef.current &&
-        !createDropdownRef.current.contains(event.target)
-      ) {
-        if (
-          !uploadPopup.flag &&
-          !showJiraPopup &&
-          !showDevOpsPopup &&
-          !showProgressBar
-        ) {
+      if (createDropdownRef.current && !createDropdownRef.current.contains(event.target)) {
+        if (!uploadPopup.flag && !showJiraPopup && !showDevOpsPopup && !showProgressBar) {
           setCreateFlag(false);
         }
       }
-      if (
-        hamburgerDropdownRef.current &&
-        !hamburgerDropdownRef.current.contains(event.target)
-      ) {
+      if (hamburgerDropdownRef.current && !hamburgerDropdownRef.current.contains(event.target)) {
         setShowHamburgerMenu(false);
       }
     }
@@ -1199,9 +1169,7 @@ ${rawCode}
   const handleToggle = () => {
     setIsChecked((prevIsChecked) => {
       const newCheckedState = !prevIsChecked;
-      setTestCaseType(
-        newCheckedState ? "Automated Test Cases" : "Manual Test Cases"
-      );
+      setTestCaseType(newCheckedState ? "Automated Test Cases" : "Manual Test Cases");
       return newCheckedState;
     });
   };
@@ -1250,12 +1218,9 @@ ${rawCode}
         setProgressMessage("Validating Excel content...");
 
         // Prepare form data for upload
-        const formData = await ExcelHandler.prepareExcelForUpload(
-          excelFile,
-          (progress) => {
-            setProgressBar(`${30 + progress * 0.2}%`);
-          }
-        );
+        const formData = await ExcelHandler.prepareExcelForUpload(excelFile, (progress) => {
+          setProgressBar(`${30 + progress * 0.2}%`);
+        });
 
         // Add test case type
         formData.append("test_case_type", testCaseType);
@@ -1283,9 +1248,7 @@ ${rawCode}
         })
           .then(async (response) => {
             if (!response.ok) {
-              throw new Error(
-                `Upload failed: ${response.status} - ${response.statusText}`
-              );
+              throw new Error(`Upload failed: ${response.status} - ${response.statusText}`);
             }
 
             if (!response.body) {
@@ -1306,9 +1269,7 @@ ${rawCode}
 
               for (const event of events) {
                 if (event.startsWith("data:")) {
-                  const jsonData = JSON.parse(
-                    event.replace("data: ", "").trim()
-                  );
+                  const jsonData = JSON.parse(event.replace("data: ", "").trim());
 
                   console.log("Excel URL Event Data:", jsonData);
 
@@ -1326,9 +1287,7 @@ ${rawCode}
 
                   if (jsonData.progress === 100) {
                     let finalData =
-                      collectedData.trim() !== ""
-                        ? collectedData.trim()
-                        : jsonData.data;
+                      collectedData.trim() !== "" ? collectedData.trim() : jsonData.data;
 
                     setResponseData({
                       status: 200,
@@ -1336,9 +1295,7 @@ ${rawCode}
                     });
 
                     setGeneratedResults("Generated Results for Excel from URL");
-                    setSuccessMessage(
-                      "Excel URL processing has been successful!"
-                    );
+                    setSuccessMessage("Excel URL processing has been successful!");
                     setShowSuccessToast(true);
 
                     setTimeout(() => {
@@ -1443,12 +1400,8 @@ ${rawCode}
       })
         .then(async (response) => {
           if (!response.ok) {
-            console.error(
-              `Upload failed: ${response.status} - ${response.statusText}`
-            );
-            setError(
-              `Upload failed: ${response.status} - ${response.statusText}`
-            );
+            console.error(`Upload failed: ${response.status} - ${response.statusText}`);
+            setError(`Upload failed: ${response.status} - ${response.statusText}`);
             setShowErrorToast(true);
             setShowProgressBar(false);
             return;
@@ -1494,30 +1447,20 @@ ${rawCode}
 
                 if (jsonData.progress === 100) {
                   let finalData =
-                    collectedData.trim() !== ""
-                      ? collectedData.trim()
-                      : jsonData.data;
+                    collectedData.trim() !== "" ? collectedData.trim() : jsonData.data;
 
                   setResponseData({
                     status: 200,
                     data: { message: finalData },
                   });
-                  setGeneratedResults(
-                    "Generated Results for " + jsonData.title
-                  );
+                  setGeneratedResults("Generated Results for " + jsonData.title);
 
                   // Extract and set coverage data if available
-                  console.log(
-                    "Checking for coverage data in jsonData:",
-                    jsonData
-                  );
+                  console.log("Checking for coverage data in jsonData:", jsonData);
                   if (jsonData.coverage) {
                     console.log("Coverage data found:", jsonData.coverage);
                     // If this was a regeneration for missed requirements, merge with original coverage
-                    if (
-                      window.isRegeneratingMissed &&
-                      window.originalCoverageData
-                    ) {
+                    if (window.isRegeneratingMissed && window.originalCoverageData) {
                       const originalCoverage = window.originalCoverageData;
                       const newCoverage = jsonData.coverage;
 
@@ -1548,12 +1491,8 @@ ${rawCode}
                         }
                       });
 
-                      const mergedAnalysis = Array.from(
-                        requirementMap.values()
-                      );
-                      const coveredCount = mergedAnalysis.filter(
-                        (req) => req.covered
-                      ).length;
+                      const mergedAnalysis = Array.from(requirementMap.values());
+                      const coveredCount = mergedAnalysis.filter((req) => req.covered).length;
 
                       const mergedCoverage = {
                         ...newCoverage,
@@ -1574,10 +1513,7 @@ ${rawCode}
                       setCoverageData(jsonData.coverage);
                     }
                   } else {
-                    console.log(
-                      "No coverage data found in response, jsonData:",
-                      jsonData
-                    );
+                    console.log("No coverage data found in response, jsonData:", jsonData);
                   }
 
                   // Extract requirements for display
@@ -1647,15 +1583,13 @@ ${rawCode}
         const blob = new Blob([response.data], { type: fileType });
 
         const now = new Date();
-        const formattedDate = `${now.getFullYear()}-${String(
-          now.getMonth() + 1
-        ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-        const formattedTime = `${String(now.getHours()).padStart(
+        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
           2,
           "0"
-        )}-${String(now.getMinutes()).padStart(2, "0")}-${String(
-          now.getSeconds()
-        ).padStart(2, "0")}`;
+        )}-${String(now.getDate()).padStart(2, "0")}`;
+        const formattedTime = `${String(now.getHours()).padStart(2, "0")}-${String(
+          now.getMinutes()
+        ).padStart(2, "0")}-${String(now.getSeconds()).padStart(2, "0")}`;
         const dateTime = `${formattedDate}_${formattedTime}`;
 
         const filename = `${filenamePrefix}_${dateTime}.pdf`;
@@ -1672,10 +1606,7 @@ ${rawCode}
         console.error("Failed to download file", response.data);
       }
     } catch (error) {
-      console.error(
-        "Download failed",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Download failed", error.response ? error.response.data : error.message);
     }
   };
 
@@ -1690,15 +1621,13 @@ ${rawCode}
         const blob = new Blob([response.data], { type: fileType });
 
         const now = new Date();
-        const formattedDate = `${now.getFullYear()}-${String(
-          now.getMonth() + 1
-        ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-        const formattedTime = `${String(now.getHours()).padStart(
+        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
           2,
           "0"
-        )}-${String(now.getMinutes()).padStart(2, "0")}-${String(
-          now.getSeconds()
-        ).padStart(2, "0")}`;
+        )}-${String(now.getDate()).padStart(2, "0")}`;
+        const formattedTime = `${String(now.getHours()).padStart(2, "0")}-${String(
+          now.getMinutes()
+        ).padStart(2, "0")}-${String(now.getSeconds()).padStart(2, "0")}`;
         const dateTime = `${formattedDate}_${formattedTime}`;
 
         const filename = `${filenamePrefix}_${dateTime}.xlsx`;
@@ -1715,10 +1644,7 @@ ${rawCode}
         console.error("Failed to download file", response.data);
       }
     } catch (error) {
-      console.error(
-        "Download failed",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Download failed", error.response ? error.response.data : error.message);
     }
   };
 
@@ -1733,15 +1659,13 @@ ${rawCode}
         const blob = new Blob([response.data], { type: fileType });
 
         const now = new Date();
-        const formattedDate = `${now.getFullYear()}-${String(
-          now.getMonth() + 1
-        ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-        const formattedTime = `${String(now.getHours()).padStart(
+        const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
           2,
           "0"
-        )}-${String(now.getMinutes()).padStart(2, "0")}-${String(
-          now.getSeconds()
-        ).padStart(2, "0")}`;
+        )}-${String(now.getDate()).padStart(2, "0")}`;
+        const formattedTime = `${String(now.getHours()).padStart(2, "0")}-${String(
+          now.getMinutes()
+        ).padStart(2, "0")}-${String(now.getSeconds()).padStart(2, "0")}`;
         const dateTime = `${formattedDate}_${formattedTime}`;
 
         const filename = `${filenamePrefix}_${dateTime}.zip`;
@@ -1758,10 +1682,7 @@ ${rawCode}
         console.error("Failed to download file", response.data);
       }
     } catch (error) {
-      console.error(
-        "Download failed",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Download failed", error.response ? error.response.data : error.message);
     }
   };
 
@@ -1793,16 +1714,10 @@ ${rawCode}
         console.log(epicInput);
         console.log(userStoryInput);
         if (epicInput && !userStoryInput) {
-          endpoint =
-            backend_baseURL +
-            `/download/excel/jira-user-stories?EmailId=` +
-            email;
+          endpoint = backend_baseURL + `/download/excel/jira-user-stories?EmailId=` + email;
           filenamePrefix = "Jira_User_Stories_Excel";
         } else if (epicInput && userStoryInput) {
-          endpoint =
-            backend_baseURL +
-            `/download/excel/jira-manual-test-cases?EmailId=` +
-            email;
+          endpoint = backend_baseURL + `/download/excel/jira-manual-test-cases?EmailId=` + email;
           filenamePrefix = "Jira_Test_Data_Excel";
         }
         await downloadExcel(
@@ -1822,14 +1737,10 @@ ${rawCode}
         console.log(projectInput);
         console.log(workItemInput);
         if (projectInput && !workItemInput) {
-          endpoint =
-            backend_baseURL +
-            `/download/excel/devops-work-items?EmailId=` +
-            email;
+          endpoint = backend_baseURL + `/download/excel/devops-work-items?EmailId=` + email;
           filenamePrefix = "DevOps_Work_Items_Excel";
         } else if (projectInput && workItemInput) {
-          endpoint =
-            backend_baseURL + `/devops/download-excel?EmailId=` + email;
+          endpoint = backend_baseURL + `/devops/download-excel?EmailId=` + email;
           filenamePrefix = "DevOps_Test_Data_Excel";
         }
         await downloadExcel(
@@ -1846,8 +1757,7 @@ ${rawCode}
         await downloadPdf(endpoint, fileType, filenamePrefix);
       } else if (downloadType === "excel") {
         endpoint = `${backend_baseURL}/download/excel/manual-test-cases?EmailId=${email}`;
-        fileType =
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         filenamePrefix = "Manual_Test_Cases_Excel";
         await downloadExcel(endpoint, fileType, filenamePrefix);
       }
@@ -1861,10 +1771,7 @@ ${rawCode}
 
   const redirectToJira = async () => {
     // First check if we already have a valid token
-    if (
-      JiraTokenService.hasValidToken() ||
-      JiraTokenService.isAuthenticated()
-    ) {
+    if (JiraTokenService.hasValidToken() || JiraTokenService.isAuthenticated()) {
       console.log("Using existing Jira token");
       // Set the popup state directly instead of redirecting
       setShowJiraPopup(true);
@@ -1959,16 +1866,9 @@ ${rawCode}
                     className="d-flex align-items-center justify-content-between gap-4"
                     style={{ position: "relative" }}
                   >
-                    <img
-                      src={mainLogo}
-                      alt="Evoke Technologies Logo"
-                      style={{ height: "40px" }}
-                    />
+                    <img src={mainLogo} alt="Evoke Technologies Logo" style={{ height: "40px" }} />
 
-                    <div
-                      className="hamburger-container"
-                      ref={hamburgerDropdownRef}
-                    >
+                    {/* <div className="hamburger-container" ref={hamburgerDropdownRef}>
                       <button
                         className="hamburger-button"
                         onClick={handleHamburgerToggle}
@@ -1988,9 +1888,7 @@ ${rawCode}
                             >
                               Create New
                             </li>
-                            <li onClick={handleOpenKnowledgeBase}>
-                              Knowledge Base Upload
-                            </li>
+                            <li onClick={handleOpenKnowledgeBase}>Knowledge Base Upload</li>
                           </ul>
                         </div>
                       )}
@@ -2063,10 +1961,7 @@ ${rawCode}
                     )}
                   </div>
                   {/* Profile */}
-                  <ProfileComponent
-                    profileFlag={profileFlag}
-                    setProfileFlag={setProfileFlag}
-                  />
+                  <ProfileComponent profileFlag={profileFlag} setProfileFlag={setProfileFlag} />
                 </div>
               </div>
             </header>
@@ -2105,10 +2000,7 @@ ${rawCode}
             {/* )} */}
             {/* </div> */}
             {showProgressBar && !isGenerationInProgress && (
-              <ProgressBar
-                progressBar={progressBar}
-                progressMessage={progressMessage}
-              />
+              <ProgressBar progressBar={progressBar} progressMessage={progressMessage} />
             )}
 
             {/* {progressBar !== '0%' && <ProgressBar  progressBar={progressBar}/>
@@ -2141,10 +2033,8 @@ ${rawCode}
                                 }}
                               >
                                 {refinementIntent === "ADDITION" && "(Added)"}
-                                {refinementIntent === "REDUCTION" &&
-                                  "(Reduced)"}
-                                {refinementIntent === "OPTIMIZATION" &&
-                                  "(Optimized)"}
+                                {refinementIntent === "REDUCTION" && "(Reduced)"}
+                                {refinementIntent === "OPTIMIZATION" && "(Optimized)"}
                                 {!refinementIntent && "(Modified)"}
                               </span>
                             )}
@@ -2397,9 +2287,7 @@ ${rawCode}
                     <div className="content-text">
                       <div className="markdown-body">
                         <MarkdownStyles
-                          key={`${displayType}-${
-                            responseData?.data?.message?.length || 0
-                          }`}
+                          key={`${displayType}-${responseData?.data?.message?.length || 0}`}
                           content={responseData?.data?.message}
                           initialFilter={testCaseFilter}
                           onFilterChange={handleTestCaseFilterChange}
@@ -2413,8 +2301,7 @@ ${rawCode}
                         <div className="refined-test-cases-section">
                           <div className="refined-header">
                             <h3 className="refined-title">
-                              {refinedTestCases?.data?.title ||
-                                "Refined Test Cases"}
+                              {refinedTestCases?.data?.title || "Refined Test Cases"}
                             </h3>
                             <div className="refined-actions">
                               <button
@@ -2449,16 +2336,42 @@ ${rawCode}
                   </div>
                 </>
               ) : (
-                <div className="empty-screen">
-                  <img src={landingScreen} alt="Landing Screen Icon" />
-                  <h4 className="landing-empty-header">
-                    Welcome to QA Accelerator
-                  </h4>
-                  <p className="content-text">
-                    Our platform is designed to streamline and enhance your
-                    testing processes, ensuring quality and efficiency in your
-                    software development lifecycle.
-                  </p>
+                <div className="d-flex align-items-center justify-content-between flex-column page-container">
+                  <div className="w-100 d-flex align-items-center justify-content-center flex-column page-container-header-text">
+                    {/* <img src={landingScreen} alt="Landing Screen Icon" /> */}
+                    <h4 className="landing-empty-header">QA Accelerator</h4>
+                    <p className="content-text">
+                      Our QA accelerator connects with your code, documents and Jira/Azure DevOps to
+                      generate test cases, automate execution, and speed up release cycles without
+                      compromising quality.
+                    </p>
+                  </div>
+
+                  <ListCards
+                    uploadPopup={uploadPopup}
+                    handleUploadPopup={handleUploadPopup}
+                    successIconTick={successIconTick}
+                    file={file}
+                    handleClear={handleClear}
+                    handleFileUpload={handleFileUpload}
+                    handleToggle={handleToggle}
+                    isChecked={isChecked}
+                    redirectToJira={redirectToJira}
+                    redirectToDevOps={redirectToDevOps}
+                    handleExcelUploadPopup={handleExcelUploadPopup}
+                    handleOpenKnowledgeBase={handleOpenKnowledgeBase}
+                    handleOpenJiraAnalysis={() => {
+                      setUploadPopup({ flag: false, identifier: "" });
+                      setShowJiraPopup(false);
+                      setShowJiraUpload(false);
+                      setShowDevOpsPopup(false);
+                      if (JiraTokenService.hasValidToken()) {
+                        setShowJiraAnalysisPopup(true);
+                      } else {
+                        redirectToJira();
+                      }
+                    }}
+                  />
                 </div>
               )}
             </div>
@@ -2484,6 +2397,9 @@ ${rawCode}
           setUploadPopup={setUploadPopup}
           setUploadedFile={setFile}
           setDocumentDescription={setDocumentDescription}
+          handleToggle={handleToggle}
+          isChecked={isChecked}
+          setSubmit={setSubmit}
         />
       )}
 
@@ -2574,11 +2490,7 @@ ${rawCode}
             onClick={handleOpenConversational}
             title="Chat to Refine Test Cases"
           >
-            <img
-              src={robotChatIcon}
-              alt="AI Robot"
-              className="robot-chat-icon"
-            />
+            <img src={robotChatIcon} alt="AI Robot" className="robot-chat-icon" />
           </button>
           <div className="floating-chat-tooltip">Chat to Refine Test Cases</div>
         </div>

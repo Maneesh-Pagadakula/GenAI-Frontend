@@ -246,23 +246,20 @@ a,
 }
 
 .landing-empty-header {
-  font-size: 18px;
+  font-size: 36px;
   font-weight: 600;
+  color: #FFFFFF;
 }
 
 .content-text,
 p {
-  color: #646464;
+  color: #ffffff;
   font-size: 14px;
 }
 
 .empty-screen {
-  position: absolute;
-  width: 60%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 75%);
-  text-align: center;
+  display: flex;
+  
 }
 
 .empty-screen img {

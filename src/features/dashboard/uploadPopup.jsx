@@ -8,11 +8,16 @@ export default function UploadPopup({
   setUploadedFile,
   setDocumentDescription,
   setUploadPopup,
+  isChecked,
+  handleToggle,
+  setSubmit
 }) {
   const { setUploadFlag } = useUpload();
   const [text, setText] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
+
+  const isCodeOrDocument = ["code", "Document"].includes(uploadPopup.identifier)
 
   const handleFileSelect = (e) => {
     const selectedFile = e.target.files[0];
@@ -21,13 +26,12 @@ export default function UploadPopup({
 
   const handleSubmit = () => {
     if (uploadPopup.identifier !== "code") {
-        const wordCount = text.trim().split(/\s+/).length;
-        if (wordCount < 50) {
-          setError(`Please enter at least 50 words. Currently: ${wordCount}`);
-          return;
-        }
+      const wordCount = text.trim().split(/\s+/).length;
+      if (wordCount < 50) {
+        setError(`Please enter at least 50 words. Currently: ${wordCount}`);
+        return;
       }
-
+    }
 
     if (!file) {
       setError("Please select a file to upload.");
@@ -39,8 +43,8 @@ export default function UploadPopup({
     // Store file and text to parent state
     setUploadedFile(file);
     if (uploadPopup.identifier !== "code") {
-        setDocumentDescription(text);
-      }
+      setDocumentDescription(text);
+    }
 
     // Update upload type in context
     switch (uploadPopup.identifier) {
@@ -57,7 +61,8 @@ export default function UploadPopup({
       default:
         break;
     }
-
+    
+    setSubmit(true);
     // Close the popup
     setUploadPopup((prev) => ({ ...prev, flag: false }));
   };
@@ -123,15 +128,9 @@ export default function UploadPopup({
                 }}
                 onClick={() => document.getElementById("file-input").click()}
               >
-                <img
-                  src={fileUploadeIcon}
-                  alt="File Upload Icon"
-                  style={{ width: "40px" }}
-                />
+                <img src={fileUploadeIcon} alt="File Upload Icon" style={{ width: "40px" }} />
                 <h6 className="mt-2 mb-1 fw-semibold">Select file</h6>
-                <p className="text-muted mb-0">
-                  Drag and drop the file to upload
-                </p>
+                <p className="text-muted mb-0">Drag and drop the file to upload</p>
                 <input
                   id="file-input"
                   type="file"
@@ -152,16 +151,29 @@ export default function UploadPopup({
                   >
                     Uploaded File:
                   </label>
-                  <span style={{ fontSize: "0.85rem", color: "#555" }}>
-                    {file.name}
-                  </span>
+                  <span style={{ fontSize: "0.85rem", color: "#555" }}>{file.name}</span>
                 </div>
               )}
             </div>
-            
 
             {/* Submit Button */}
-            <div className="d-flex justify-content-end">
+            <div className={`d-flex ${ isCodeOrDocument ? "justify-content-between" : "justify-content-end" }`}>
+              {isCodeOrDocument && (
+                <div className="d-flex align-items-center justify-content-between">
+                  <h6 className="create-new-label">Automated</h6>
+                  <div className="align-self-center">
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexSwitchCheckDefault"
+                        checked={isChecked}
+                        onChange={handleToggle}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
               <button
                 type="button"
                 className="btn btn-primary"
@@ -171,7 +183,7 @@ export default function UploadPopup({
                   borderRadius: "6px",
                 }}
               >
-                Submit
+                {isCodeOrDocument ? 'Submit & Create' : 'Submit'}
               </button>
             </div>
           </div>
